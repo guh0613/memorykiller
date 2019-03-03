@@ -12,6 +12,9 @@ import java.nio.*;
 public class MainActivity extends Activity 
 {
 	private EditText edit;
+	private EditText editname;
+	private EditText editafter;
+	private EditText editpath;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -100,7 +103,7 @@ public class MainActivity extends Activity
 	public void b1(View view)
 	{
 		//如果这个东西啥都没写
-		edit=(EditText) findViewById(R.id.ET1);//获取输入内容
+		edit=(EditText) findViewById(R.id.ET1);//获取文件大小
 		String text=edit.getText().toString();
 		if(text.equals(""))//我要检测空格了
 		{
@@ -108,19 +111,21 @@ public class MainActivity extends Activity
 		}
 		else
 		{
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		//检测文件名是否为空
+		editname =(EditText) findViewById(R.id.ETname);
+		String filename=editname.getText().toString();
+		if(filename.trim().length()==0)
+		{
+			Toast.makeText(MainActivity.this,"你至少给个名字吧！",Toast.LENGTH_SHORT).show();
+		}
+		else
+		{
+		//获得后缀名
+		editafter=(EditText) findViewById(R.id.ETafter);
+		String fileafter=editafter.getText().toString();
 			//由于写入文件时应用处理无响应，toast会在处理完成后弹出
 			Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
-			edit=(EditText) findViewById(R.id.ET1);//获取输入内容
+			edit=(EditText) findViewById(R.id.ET1);//获取文件大小
 			String input=edit.getText().toString();
 			int filelength = Integer.parseInt(input);//转换成int型
 			//写入文件
@@ -128,7 +133,7 @@ public class MainActivity extends Activity
 			FileOutputStream out=null;
 			BufferedWriter writer=null;
 			try{
-				out=openFileOutput("data",Context.MODE_APPEND);
+				out=openFileOutput(filename+"."+fileafter,Context.MODE_APPEND);
 				writer=new BufferedWriter(new OutputStreamWriter(out));
 				//通过for循环写入1
 				for(int a=0;a<filelength*1024*1024;a++)
@@ -142,10 +147,11 @@ public class MainActivity extends Activity
 		
 	    }
 	}
+	}
 	//写入外部储存
 	public void b2(View view)
 	{
-		edit=(EditText) findViewById(R.id.ET1);//获取输入内容
+		edit=(EditText) findViewById(R.id.ET1);//获取文件大小
 		String text=edit.getText().toString();
 		//同样的啥都没写就
 		if(text.equals(""))
@@ -154,15 +160,30 @@ public class MainActivity extends Activity
 		}
 		else
 		{
+			editname =(EditText) findViewById(R.id.ETname);
+			String filename=editname.getText().toString();
+			if(filename.trim().length()==0)
+			{
+				Toast.makeText(MainActivity.this,"你至少给个名字吧！",Toast.LENGTH_SHORT).show();
+			}
+			else
+			{
 			//由于写入文件时应用处理无响应，toast会在处理完成后弹出
 			Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
-			edit=(EditText) findViewById(R.id.ET1);//获取输入内容
+				//获得后缀名
+				editafter=(EditText) findViewById(R.id.ETafter);
+				String fileafter=editafter.getText().toString();
+				//获得路径
+				editpath=(EditText) findViewById(R.id.ETpath);
+				String filepath=editpath.getText().toString();
+			edit=(EditText) findViewById(R.id.ET1);//获取文件大小
 			String input=edit.getText().toString();
 			int filelength = Integer.parseInt(input);//转换成int型
 			//写入文件
-			String filePath="/sdcard/老子占内存.txt";
+			String filePath=filepath+filename+"."+fileafter;
 			int fileSize=filelength;
 			createFile(filePath, fileSize, FileUnit.MB);
 		}
 	}
+}
 }
