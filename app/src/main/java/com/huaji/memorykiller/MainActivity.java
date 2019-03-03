@@ -180,7 +180,7 @@ public class MainActivity extends Activity
 			String input=edit.getText().toString();
 			int filelength = Integer.parseInt(input);//转换成int型
 			//写入文件
-			String filePath=filepath+filename+"."+fileafter;
+			String filePath="/sdcard/"+filepath+filename+"."+fileafter;
 			int fileSize=filelength;
 			createFile(filePath, fileSize, FileUnit.MB);
 		}

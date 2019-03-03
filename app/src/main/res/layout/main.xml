@@ -80,17 +80,22 @@
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="match_parent"
-				android:text="文件路径："
+				android:text="文件路径(仅限外部储存)："
 				android:textSize="15sp"
 				android:gravity="center"/>
 
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:text="/sdcard/"
+				android:gravity="center"/>
+
 			<EditText
-				android:hint="必须以/开头，以/结尾"
+				android:hint="必须以/结尾"
 				android:inputType="none"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:id="@+id/ETpath"
-				android:text="/sdcard/"/>
+				android:id="@+id/ETpath"/>
 
 		</LinearLayout>
 
