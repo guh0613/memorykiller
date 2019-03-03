@@ -8,6 +8,14 @@ import java.io.*;
 import android.content.*;
 import java.nio.channels.*;
 import java.nio.*;
+import android.provider.*;
+import android.*;
+import java.security.*;
+import com.pgyersdk.crash.*;
+import com.pgyersdk.update.*;
+import android.util.*;
+import com.pgyersdk.update.javabean.*;
+import android.net.*;
 
 public class MainActivity extends Activity 
 {
@@ -21,7 +29,58 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-		
+		PgyCrashManager.register();
+		/** 新版本 **/
+		new PgyUpdateManager.Builder()
+			.setForced(false)                //设置是否强制提示更新,非自定义回调更新接口此方法有用
+			.setUserCanRetry(true)         //失败后是否提示重新下载，非自定义下载 apk 回调此方法有用
+			.setDeleteHistroyApk(true)     // 检查更新前是否删除本地历史 Apk， 默认为true
+			.setUpdateManagerListener(new UpdateManagerListener() {
+				@Override
+				public void onNoUpdateAvailable() {
+					//没有更新是回调此方法
+					Log.d("pgyer", "there is no new version");
+				}
+				@Override
+				public void onUpdateAvailable(AppBean appBean) {
+					//有更新回调此方法
+					Log.d("pgyer", "there is new version can update"
+						  + "new versionCode is " + appBean.getVersionCode());
+					//调用以下方法，DownloadFileListener 才有效；
+					//如果完全使用自己的下载方法，不需要设置DownloadFileListener
+					PgyUpdateManager.downLoadApk(appBean.getDownloadURL());
+				}
+
+				@Override
+				public void checkUpdateFailed(Exception e) {
+					//更新检测失败回调
+					//更新拒绝（应用被下架，过期，不在安装有效期，下载次数用尽）以及无网络情况会调用此接口
+					Log.e("pgyer", "check update failed ", e);
+                }
+            })
+            //注意 ：
+            //下载方法调用 PgyUpdateManager.downLoadApk(appBean.getDownloadURL()); 此回调才有效
+            //此方法是方便用户自己实现下载进度和状态的 UI 提供的回调
+            //想要使用蒲公英的默认下载进度的UI则不设置此方法
+            .setDownloadFileListener(new DownloadFileListener() {   
+                @Override
+                public void downloadFailed() {
+                    //下载失败
+                    Log.e("pgyer", "download apk failed");
+                }
+
+                @Override
+                public void downloadSuccessful(Uri uri) {
+                    Log.e("pgyer", "download apk failed");
+                    // 使用蒲公英提供的安装方法提示用户 安装apk
+                    PgyUpdateManager.installApk(uri);  
+				}
+
+                @Override
+                public void onProgressUpdate(Integer... integers) {
+                    Log.e("pgyer", "update download apk progress" + integers);
+                }})
+			.register();
     }
 
 //文件单位
@@ -86,6 +145,7 @@ public class MainActivity extends Activity
 				return true;
 			} catch (IOException e) {
 				e.printStackTrace();
+				PgyCrashManager.reportCaughtException(e);
 			} finally {
 				try {
 					if (fos != null) {
@@ -93,6 +153,7 @@ public class MainActivity extends Activity
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
+					PgyCrashManager.reportCaughtException(e);
 				}
 			}
 			return false;
@@ -143,6 +204,7 @@ public class MainActivity extends Activity
 			
 			} catch(IOException e){
 				e.printStackTrace();
+				PgyCrashManager.reportCaughtException(e);
 			}
 		
 	    }
@@ -151,6 +213,7 @@ public class MainActivity extends Activity
 	//写入外部储存
 	public void b2(View view)
 	{
+		
 		edit=(EditText) findViewById(R.id.ET1);//获取文件大小
 		String text=edit.getText().toString();
 		//同样的啥都没写就
