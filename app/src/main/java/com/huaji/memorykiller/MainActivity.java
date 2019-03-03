@@ -21,19 +21,12 @@ public class MainActivity extends Activity
 		
     }
 
-
+//文件单位
 		public enum FileUnit {
 			KB, MB, GB
 			}
 
-		/**
-		 * 创建指定大小和类型的文件
-		 * @author cxq
-		 * @param targetFile 文件路径以及文件名，需要加后缀
-		 * @param fileLength 文件大小
-		 * @param unit 单位，KB,MB，GB
-		 * @retrun boolean
-		 */
+		//文件写入
 		public boolean createFile(String targetFile, long fileLength, FileUnit unit) {
 			//指定每次分配的块大小
 			long KBSIZE = 1024;
@@ -56,7 +49,7 @@ public class MainActivity extends Activity
 			FileOutputStream fos = null;
 			File file = new File(targetFile);
 			try {
-
+//如果文件存在
 				if (!file.exists()) {
 					file.createNewFile();
 				}
