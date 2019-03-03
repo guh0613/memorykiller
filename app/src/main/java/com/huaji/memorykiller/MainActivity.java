@@ -115,7 +115,8 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				}
 				if(unit[pos].equals("TB(有种就试试)"))
 				{
-					Toast.makeText(MainActivity.this, "虽然真男人都选TB的，但是我拒绝，请选别的",2000).show();
+					Toast.makeText(MainActivity.this, "真男人都选TB",2000).show();
+					fileUnit="无";
 				}
 				
 				
@@ -270,23 +271,29 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			}
 			else
 			{
-			//由于写入文件时应用处理无响应，toast会在处理完成后弹出
-			Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
-				//获得后缀名
-				editafter=(EditText) findViewById(R.id.ETafter);
-				String fileafter=editafter.getText().toString();
-				//获得路径
-				editpath=(EditText) findViewById(R.id.ETpath);
-				String filepath=editpath.getText().toString();
-			edit=(EditText) findViewById(R.id.ET1);//获取文件大小
-			String input=edit.getText().toString();
-			int filelength = Integer.parseInt(input);//转换成int型
-			//写入文件
-			String filePath="/sdcard/"+filepath+filename+"."+fileafter;
-			int fileSize=filelength;
-			
-			createFile(filePath, fileSize,fileUnit);
+				if(fileUnit.equals("无"))
+				{
+					Toast.makeText(MainActivity.this,"但是我拒绝!",Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					//由于写入文件时应用处理无响应，toast会在处理完成后弹出
+					Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
+						//获得后缀名
+						editafter=(EditText) findViewById(R.id.ETafter);
+						String fileafter=editafter.getText().toString();
+						//获得路径
+						editpath=(EditText) findViewById(R.id.ETpath);
+						String filepath=editpath.getText().toString();
+					edit=(EditText) findViewById(R.id.ET1);//获取文件大小
+					String input=edit.getText().toString();
+					int filelength = Integer.parseInt(input);//转换成int型
+					//写入文件
+					String filePath="/sdcard/"+filepath+filename+"."+fileafter;
+					int fileSize=filelength;
+					createFile(filePath, fileSize,fileUnit);
+				}
+			}
 		}
 	}
-}
 }
