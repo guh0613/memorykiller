@@ -99,31 +99,60 @@ public class MainActivity extends Activity
 	//写入内部储存
 	public void b1(View view)
 	{
-		//由于写入文件时应用处理无响应，toast会在处理完成后弹出
-		Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
+		//如果这个东西啥都没写
 		edit=(EditText) findViewById(R.id.ET1);//获取输入内容
-		String input=edit.getText().toString();
-		int filelength = Integer.parseInt(input);//转换成int型
-		//写入文件
-		String data="1";
-		FileOutputStream out=null;
-		BufferedWriter writer=null;
-		try{
-			out=openFileOutput("data",Context.MODE_APPEND);
-			writer=new BufferedWriter(new OutputStreamWriter(out));
-			//通过for循环写入1
-			for(int a=0;a<filelength*1024*1024;a++)
-			{
-				writer.write(data);
-			}
-			
-		} catch(IOException e){
-			e.printStackTrace();
+		String text=edit.getText().toString();
+		if(text.equals(""))//我要检测空格了
+		{
+			Toast.makeText(MainActivity.this,"嗯?你想让老子占个寂寞?",Toast.LENGTH_LONG).show();
 		}
+		else
+		{
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			//由于写入文件时应用处理无响应，toast会在处理完成后弹出
+			Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
+			edit=(EditText) findViewById(R.id.ET1);//获取输入内容
+			String input=edit.getText().toString();
+			int filelength = Integer.parseInt(input);//转换成int型
+			//写入文件
+			String data="1";
+			FileOutputStream out=null;
+			BufferedWriter writer=null;
+			try{
+				out=openFileOutput("data",Context.MODE_APPEND);
+				writer=new BufferedWriter(new OutputStreamWriter(out));
+				//通过for循环写入1
+				for(int a=0;a<filelength*1024*1024;a++)
+				{
+					writer.write(data);
+				}
+			
+			} catch(IOException e){
+				e.printStackTrace();
+			}
 		
 	    }
-		//写入外部储存
-		public void b2(View view)
+	}
+	//写入外部储存
+	public void b2(View view)
+	{
+		edit=(EditText) findViewById(R.id.ET1);//获取输入内容
+		String text=edit.getText().toString();
+		//同样的啥都没写就
+		if(text.equals(""))
+		{
+			Toast.makeText(MainActivity.this,"你想让老子占个寂寞吗?",Toast.LENGTH_LONG).show();
+		}
+		else
 		{
 			//由于写入文件时应用处理无响应，toast会在处理完成后弹出
 			Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
@@ -132,12 +161,8 @@ public class MainActivity extends Activity
 			int filelength = Integer.parseInt(input);//转换成int型
 			//写入文件
 			String filePath="/sdcard/老子占内存.txt";
-
 			int fileSize=filelength;
-
 			createFile(filePath, fileSize, FileUnit.MB);
 		}
-	
-
-
+	}
 }
