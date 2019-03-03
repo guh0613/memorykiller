@@ -16,6 +16,7 @@ import com.pgyersdk.update.*;
 import android.util.*;
 import com.pgyersdk.update.javabean.*;
 import android.net.*;
+import android.widget.AdapterView.*;
 
 public class MainActivity extends Activity 
 {
@@ -24,7 +25,8 @@ public class MainActivity extends Activity
 	private EditText editafter;
 	private EditText editpath;
 	
-    @Override
+    
+	@Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -81,33 +83,70 @@ public class MainActivity extends Activity
                     Log.e("pgyer", "update download apk progress" + integers);
                 }})
 			.register();
-    }
-
-//文件单位
-		public enum FileUnit {
-			KB, MB, GB
+			
+			
+		//这里是选择单位的地方
+		Spinner Storage_unit = (Spinner) findViewById(R.id.S1);
+		String[] mItems = getResources().getStringArray(R.array.unit);
+		ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mItems);
+adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		Storage_unit.setAdapter(adapter);
+		Storage_unit.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+			{
+				String[] unit = getResources().getStringArray(R.array.unit);
+				
+				if(unit[pos].equals("KB"))
+				{
+					Toast.makeText(MainActivity.this,"娘炮才选KB", 2000).show();
+					fileUnit="KB";
+				}
+				if(unit[pos].equals("MB"))
+				{
+					Toast.makeText(MainActivity.this,"你选的是MB", 2000).show();
+					fileUnit="MB";
+				}
+				if(unit[pos].equals("GB"))
+				{
+					Toast.makeText(MainActivity.this, "GB，还行吧", 2000).show();
+					fileUnit="GB";
+				}
+				if(unit[pos].equals("TB(有种就试试)"))
+				{
+					Toast.makeText(MainActivity.this, "虽然真男人都选TB的，但是我拒绝，请选别的",2000).show();
+				}
+				
+				
 			}
+			@Override
+			public void onNothingSelected(AdapterView<?> parent)
+			{
+			}
+		});
+	}
+		public static String fileUnit ="";
 
 		//文件写入
-		public boolean createFile(String targetFile, long fileLength, FileUnit unit) {
+		public boolean createFile(String targetFile, long fileLength, String unit) {
 			//指定每次分配的块大小
 			long KBSIZE = 1024;
 			long MBSIZE1 = 1024 * 1024;
 			long MBSIZE10 = 1024 * 1024 * 10;
-			switch (unit) {
-				case KB:
-					fileLength = fileLength * 1024;
-					break;
-				case MB:
-					fileLength = fileLength * 1024*1024;
-					break;
-				case GB:
-					fileLength = fileLength * 1024*1024*1024;
-					break;
-
-				default:
-					break;
+			if(unit=="KB")
+			{
+				fileLength = fileLength * 1024;
 			}
+			if(unit=="MB")
+			{
+				fileLength = fileLength * 1024*1024;
+			}
+			if(unit=="GB")
+			{
+				fileLength = fileLength * 1024*1024*1024;
+			}
+			
 			FileOutputStream fos = null;
 			File file = new File(targetFile);
 			try {
@@ -245,7 +284,8 @@ public class MainActivity extends Activity
 			//写入文件
 			String filePath="/sdcard/"+filepath+filename+"."+fileafter;
 			int fileSize=filelength;
-			createFile(filePath, fileSize, FileUnit.MB);
+			
+			createFile(filePath, fileSize,fileUnit);
 		}
 	}
 }

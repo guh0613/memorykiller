@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="unit">
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+		<item>TB(有种就试试)</item>
+    </string-array>
+</resources>
