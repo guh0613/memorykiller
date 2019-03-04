@@ -296,21 +296,13 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			}
 		}
 	}
-	public boolean onCreateOptionsMenu(Menu menu)
-	
-{
-	getMenuInflater().inflate(R.menu.main , menu);
-	return true;
-	}
-
-	
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		{
 			switch (item.getItemId())
 			{
 				case R.id.about:
-					showNormalDialog();
+					Toast.makeText(this , "..." ,Toast.LENGTH_SHORT).show();
 					break;
 				case R.id.updata:
 					Toast.makeText(this , "我不知道怎么更新啊" ,Toast.LENGTH_SHORT).show();
@@ -321,24 +313,4 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			return true;
 		}
 	}
-	private void showNormalDialog(){
-    /* @setIcon 设置对话框图标
-     * @setTitle 设置对话框标题
-     * @setMessage 设置对话框消息提示
-     * setXXX方法返回Dialog对象，因此可以链式设置属性
-     */
-   	final AlertDialog.Builder normalDialog = 
-    new AlertDialog.Builder(MainActivity.this);
-    normalDialog.setTitle("没想好");
-    normalDialog.setMessage("我还没想好");
-    normalDialog.setPositiveButton("老子知道了", 
-      new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        //...To-do
-      }
-    });
-    // 显示
-    normalDialog.show();
-  }
 }
