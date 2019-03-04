@@ -44,13 +44,34 @@ public class MainActivity extends Activity
 					Log.d("pgyer", "there is no new version");
 				}
 				@Override
-				public void onUpdateAvailable(AppBean appBean) {
+				public void onUpdateAvailable(final AppBean appBean) {
 					//有更新回调此方法
 					Log.d("pgyer", "there is new version can update"
 						  + "new versionCode is " + appBean.getVersionCode());
+						  AlertDialog.Builder dialog = new AlertDialog.Builder (MainActivity.this);
+						  dialog.setTitle("更新提醒");
+						  dialog.setMessage("应用有新版本，要不要更新？");
+						  dialog.setCancelable(false);
+						  dialog.setPositiveButton("好，更新",new DialogInterface.OnClickListener()
+						  {
+							  @Override
+							  public void onClick(DialogInterface dialog,int which)
+							  {
+								  PgyUpdateManager.downLoadApk(appBean.getDownloadURL());
+							  }
+						  });
+					dialog.setNegativeButton("老子才不更新",new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								
+							}
+						});
+						  dialog.show();
 					//调用以下方法，DownloadFileListener 才有效；
 					//如果完全使用自己的下载方法，不需要设置DownloadFileListener
-					PgyUpdateManager.downLoadApk(appBean.getDownloadURL());
+					
 				}
 
 				@Override
