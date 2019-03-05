@@ -235,43 +235,65 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		}
 		else
 		{
-		//检测文件名是否为空
-		editname =(EditText) findViewById(R.id.ETname);
-		String filename=editname.getText().toString();
-		if(filename.trim().length()==0)
-		{
-			Toast.makeText(MainActivity.this,"你至少给个名字吧！",Toast.LENGTH_SHORT).show();
-		}
-		else
-		{
-		//获得后缀名
-		editafter=(EditText) findViewById(R.id.ETafter);
-		String fileafter=editafter.getText().toString();
-			//由于写入文件时应用处理无响应，toast会在处理完成后弹出
-			Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
-			edit=(EditText) findViewById(R.id.ET1);//获取文件大小
-			String input=edit.getText().toString();
-			int filelength = Integer.parseInt(input);//转换成int型
-			//写入文件
-			String data="1";
-			FileOutputStream out=null;
-			BufferedWriter writer=null;
-			try{
-				out=openFileOutput(filename+"."+fileafter,Context.MODE_APPEND);
-				writer=new BufferedWriter(new OutputStreamWriter(out));
-				//通过for循环写入1
-				for(int a=0;a<filelength*1024*1024;a++)
-				{
-					writer.write(data);
-				}
-			
-			} catch(IOException e){
-				e.printStackTrace();
-				PgyCrashManager.reportCaughtException(e);
+			//检测文件名是否为空
+			editname =(EditText) findViewById(R.id.ETname);
+			String filename=editname.getText().toString();
+			if(filename.trim().length()==0)
+			{
+				Toast.makeText(MainActivity.this,"你至少给个名字吧！",Toast.LENGTH_SHORT).show();
 			}
-		
-	    }
-	}
+			else
+			{
+				if(fileUnit.equals("无"))
+				{
+					Toast.makeText(MainActivity.this,"但是我拒绝!",Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					//获得后缀名
+					editafter=(EditText) findViewById(R.id.ETafter);
+					String fileafter=editafter.getText().toString();
+					//由于写入文件时应用处理无响应，toast会在处理完成后弹出
+					Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
+					edit=(EditText) findViewById(R.id.ET1);//获取文件大小
+					String input=edit.getText().toString();
+					int filelength = Integer.parseInt(input);//转换成int型
+					//写入文件
+					String data="1";
+					FileOutputStream out=null;
+					BufferedWriter writer=null;
+					
+					if(fileUnit=="KB")
+					{
+						filelength = (filelength+8) * 1024;
+					}
+					if(fileUnit=="MB")
+					{
+						filelength = ((filelength * 1024) +8)* 1024;
+					}
+					if(fileUnit=="GB")
+					{
+						filelength = ((filelength * 1024 * 1024)+8) * 1024;
+					}
+					try
+					{
+						out=openFileOutput(filename+"."+fileafter,Context.MODE_APPEND);
+						writer=new BufferedWriter(new OutputStreamWriter(out));
+						//通过for循环写入1
+						for(int a=0;a<=filelength;a++)
+						{
+							writer.write(data);
+						}
+			
+					}
+					catch(IOException e)
+					{
+					e.printStackTrace();
+					PgyCrashManager.reportCaughtException(e);
+					}
+				}
+			}
+		}
 	}
 	//写入外部储存
 	public void b2(View view)
