@@ -1,143 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v4.widget.DrawerLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:gravity="center">
+	android:id="@+id/draw1">
+ <android.support.design.widget.CoordinatorLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true">
+	
+	<android.support.design.widget.AppBarLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:theme="@style/AppTheme.AppBarOverlay">
+		
+		<android.support.v7.widget.Toolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="?attr/actionBarSize"
+			android:background="?attr/colorPrimary"
+			app:popupTheme="@style/AppTheme.PopupOverlay"
+			android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+		
+	</android.support.design.widget.AppBarLayout>
+	<include
+		layout="@layout/content_main"/>
 
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
-
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:text="文件大小："
-				android:textSize="15sp"
-				android:gravity="center"/>
-
-			<EditText
-				android:hint="输入占内存文件大小"
-				android:inputType="number"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/ET1"/>
-
-			<Spinner
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/S1"
-				android:spinnerMode="dropdown"
-				android:entries="@array/unit"/>
-
-		</LinearLayout>
-
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:text="文件名称："
-				android:textSize="15sp"
-				android:gravity="center"/>
-
-			<EditText
-				android:hint="输入文件名"
-				android:inputType="none"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/ETname"/>
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:text="."
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:gravity="bottom"/>
-
-			<EditText
-				android:layout_width="wrap_content"
-				android:ems="10"
-				android:layout_height="wrap_content"
-				android:hint="输入后缀名"
-				android:id="@+id/ETafter"/>
-
-		</LinearLayout>
-
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:text="文件路径(仅限外部储存)："
-				android:textSize="15sp"
-				android:gravity="center"/>
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:text="/sdcard/"
-				android:gravity="center"/>
-
-			<EditText
-				android:hint="必须以/结尾"
-				android:inputType="none"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/ETpath"/>
-
-		</LinearLayout>
-
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-
-			<Switch
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:text="多线程（实验）"/>
-
-		</LinearLayout>
-
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-
-			<Button
-				android:text="占用内部储存(根目录)"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/B1"
-				android:onClick="b1"/>
-
-			<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="占用外部储存(手机内存)"
-				android:id="@+id/B2"
-				android:onClick="b2"/>
-
-		</LinearLayout>
-
-	</LinearLayout>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.DrawerLayout>
 

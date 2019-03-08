@@ -11,8 +11,8 @@ android {
         applicationId "com.huaji.memorykiller"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 4
-        versionName "0.4"
+        versionCode 6
+        versionName "0.6"
         
         
         externalNativeBuild {
@@ -48,6 +48,9 @@ android {
 }
 
 dependencies {
+	api 'com.android.support:appcompat-v7:27.+'
+	api 'com.android.support:design:27.+'
+	api 'com.android.support:support-v4:27.+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     
 	}
