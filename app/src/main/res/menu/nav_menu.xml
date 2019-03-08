@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/quickstart"
+        android:title="快速占内存"/>
+    </group>
+	<item android:title="开始占内存">
+	<menu>
+		<item
+			android:id="@+id/gen"
+			android:title="根目录"
+			android:icon="@drawable/gen"/>
+		<item
+			android:id="@+id/external"
+			android:title="外部储存（手机内存）"
+			android:icon="@drawable/ext"/>
+		
+	</menu>
+	</item>
+	<item android:title="关于">
+	 <menu>
+		 <item
+			 android:id="@+id/aboutnav"
+			 android:title="关于"
+			 android:icon="@drawable/about"/>
+	 </menu>
+	</item>
+</menu>
