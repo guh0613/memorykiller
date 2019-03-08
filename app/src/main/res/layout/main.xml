@@ -33,8 +33,15 @@
 
 			</android.support.design.widget.AppBarLayout>
 
-			<include
-				layout="@layout/content_main"/>
+			<FrameLayout
+				android:id="@+id/mainframe"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent">
+
+				
+			
+
+			</FrameLayout>
 
 		</LinearLayout>
 
