@@ -157,6 +157,9 @@ public class MainActivity extends AppCompatActivity
 			if (fileLength > MBSIZE10) {
 				batchSize = MBSIZE10;
 			}
+			if (fileLength >MBSIZE100){
+				batchSize = MBSIZE100;
+			}
 			long count = fileLength / batchSize;
 			long last = fileLength % batchSize;
 
