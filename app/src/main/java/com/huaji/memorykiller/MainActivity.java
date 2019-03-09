@@ -50,9 +50,16 @@ public class MainActivity extends AppCompatActivity
 						case R.id.nav_gen:
 							repalceFragment(new GenFragment());
 							break;
-							case R.id.nav_quickstart:
+						case R.id.nav_quickstart:
 								repalceFragment(new QuickFregment());
 								break;
+						case R.id.nav_external:
+									repalceFragment(new ExtFragment());
+									break;
+						case R.id.aboutnav:
+							break;
+							default:
+							break;
 					}
 					menuItem.setChecked(false);//点击了把它设为选中状态
 					mdraw1.closeDrawers();//关闭抽屉
