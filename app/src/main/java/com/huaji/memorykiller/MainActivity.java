@@ -24,6 +24,7 @@ import android.widget.AdapterView.*;
 import android.support.v4.content.*;
 import android.*;
 import android.content.pm.*;
+import android.view.animation.*;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 		PgyCrashManager.register(); 
 		setContentView(R.layout.main);
+		
         repalceFragment(new QuickFregment());
 		android.support.v7.widget.Toolbar toolbar=(android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -374,6 +376,7 @@ public class MainActivity extends AppCompatActivity
 		filepath =findViewById(R.id.extpath);
 		EditText sfilepath=filepath.getEditText();
 		String strpath = sfilepath.getText().toString();
+		strpath = "/sdcard/"+strpath;
 		if (strlength.trim().length()==0)
 		{
 			filelength.setErrorEnabled(true);
@@ -409,8 +412,9 @@ public class MainActivity extends AppCompatActivity
 		{
 			
 			try{
+			showGifDialog1();
 			int fileLength=Integer.parseInt(strlength);
-			String fileall="/sdcard/"+strpath+strname;
+			String fileall=strpath+strname;
 			createFile(fileall,fileLength,fileUnit);
 			}catch(Exception e)
 			{
@@ -418,6 +422,7 @@ public class MainActivity extends AppCompatActivity
 			}finally
 			{
 				Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+				
 			}
 		}
 	}
@@ -444,6 +449,7 @@ public class MainActivity extends AppCompatActivity
 				}finally
 				{
 					Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+					
 				}
 				break;
 			case R.id.large:
@@ -509,5 +515,28 @@ public class MainActivity extends AppCompatActivity
 				break;
 		}
 	}
-
+	public void showGifDialog1() 
+	{
+        AlertDialog alert_progress = new AlertDialog.Builder(MainActivity.this).create();
+		alert_progress.show(); 
+		alert_progress.setCancelable(false); // 点击背景时对话框不会消失
+		// alert_progress.dismiss(); // 取消对话框
+		Window window = alert_progress.getWindow();
+		window.setContentView(R.layout.dialog_gif); //加载自定义的布局文件
+		WindowManager.LayoutParams wm = window.getAttributes();
+		wm.width = 666; // 设置对话框的宽
+		wm.height = 666; // 设置对话框的高
+		wm.alpha = 1f;   // 对话框背景透明度
+		wm.dimAmount = 0.5f; // 遮罩层亮度
+		window.setAttributes(wm); 
+		ImageView img = (ImageView)window.findViewById(R.id.progress_bar);  // 获取布局文件中的ImageView控件
+		img.setBackgroundResource(R.drawable.huaji); // 设置图片，也可在布局文件中设置
+		// 设置旋转动画
+		Animation tranfrom = new RotateAnimation(0,359,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+		tranfrom.setDuration(3000); // 旋转速度
+		tranfrom.setFillAfter(true); 
+		tranfrom.setRepeatCount(-1); // －1为一只旋转，若10，则旋转10次设定的角度后停止
+		// tranfrom.cancel();  // 取消动画
+		img.setAnimation(tranfrom);
+    }
 }
