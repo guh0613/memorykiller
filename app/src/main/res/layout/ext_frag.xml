@@ -35,7 +35,7 @@
 				android:layout_height="wrap_content">
 
 				<android.support.design.widget.TextInputLayout
-					android:id="@+id/extlength2"
+					android:id="@+id/extlength"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="3">
@@ -88,7 +88,7 @@
 				android:layout_gravity="center"/>
 
 			<android.support.design.widget.TextInputLayout
-				android:id="@+id/extname2"
+				android:id="@+id/extname"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
@@ -127,7 +127,7 @@
 				android:layout_gravity="center"/>
 
 			<android.support.design.widget.TextInputLayout
-				android:id="@+id/extlocate3"
+				android:id="@+id/extpath"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
@@ -188,7 +188,7 @@
 		app:cardBackgroundColor="@color/cardback1"
 		android:clickable="true"
 		android:foreground="?android:attr/selectableItemBackground"
-		android:onClick="Be">
+		android:onClick="extfile">
 
 		<TextView
 			android:layout_gravity="center"

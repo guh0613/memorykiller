@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
 	private DrawerLayout mdraw1;
 	private TextInputLayout filelength;
 	private TextInputLayout filename;
+	private TextInputLayout filepath;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -300,6 +301,77 @@ public class MainActivity extends AppCompatActivity
 		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
 		{
 			String fileall="/data/data/com.huaji.memorykiller/files/"+strname;
+			createFile(fileall,fileLength,fileUnit);
+		}
+	}
+	//写入外部储存
+	public void extfile(View v)
+	{
+		Spinner Storage_unit = (Spinner) findViewById(R.id.Se);
+		String[] mItems = getResources().getStringArray(R.array.unit);
+		ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mItems);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		Storage_unit.setAdapter(adapter);
+		Storage_unit.setOnItemSelectedListener(new OnItemSelectedListener()
+			{
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+				{
+					String[] unit = getResources().getStringArray(R.array.unit);
+
+					if(unit[pos].equals("KB"))
+					{
+
+						fileUnit="KB";
+					}
+					if(unit[pos].equals("MB"))
+					{
+
+						fileUnit="MB";
+					}
+					if(unit[pos].equals("GB"))
+					{
+
+						fileUnit="GB";
+					}
+					if(unit[pos].equals("TB"))
+					{
+
+						fileUnit="TB";
+					}
+
+
+				}
+				@Override
+				public void onNothingSelected(AdapterView<?> parent)
+				{
+				}
+			});
+		filelength=findViewById(R.id.extlength);
+		EditText sfilelength=filelength.getEditText();
+		filename=findViewById(R.id.extname);
+		EditText sfilename=filename.getEditText();
+		String strname=sfilename.getText().toString();
+		String strlength=sfilelength.getText().toString();
+		int fileLength=Integer.parseInt(strlength);
+		filepath =findViewById(R.id.extpath);
+		EditText sfilepath=filepath.getEditText();
+		String strpath = sfilepath.getText().toString();
+		if (strlength.trim().length()==0)
+		{
+			filelength.setErrorEnabled(true);
+			filelength.setError("你至少给个大小吧！");
+		}
+		
+		
+			if(strname.trim().length()==0)
+			{
+				filename.setErrorEnabled(true);
+				filename.setError("你至少给个名字吧!");
+			}
+		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
+		{
+			String fileall="/sdcard/"+strpath+strname;
 			createFile(fileall,fileLength,fileUnit);
 		}
 	}
