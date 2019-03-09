@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity
 		EditText sfilename=filename.getEditText();
 		String strname=sfilename.getText().toString();
 		String strlength=sfilelength.getText().toString();
-		int fileLength=Integer.parseInt(strlength);
+		
 		filepath =findViewById(R.id.extpath);
 		EditText sfilepath=filepath.getEditText();
 		String strpath = sfilepath.getText().toString();
@@ -366,13 +366,62 @@ public class MainActivity extends AppCompatActivity
 		
 			if(strname.trim().length()==0)
 			{
+				
 				filename.setErrorEnabled(true);
 				filename.setError("你至少给个名字吧!");
 			}
 		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
 		{
+			int fileLength=Integer.parseInt(strlength);
 			String fileall="/sdcard/"+strpath+strname;
 			createFile(fileall,fileLength,fileUnit);
 		}
 	}
+	String quickfileall="/sdcard/memorykiller/quickfile";
+	public void quickfile(View v)
+	{
+
+		TextInputLayout quickfileet=(TextInputLayout) findViewById(R.id.quickfileet);
+		EditText quickfileleng=quickfileet.getEditText();
+		final String strqfileleng=quickfileleng.getText().toString();
+
+		RadioGroup rdquick=(RadioGroup) findViewById(R.id.rg_quickfile);
+
+		switch (rdquick.getCheckedRadioButtonId())
+		{
+			case R.id.splarge:
+				int Lfileleng=8888;
+				createFile(quickfileall,Lfileleng,"MB");
+				break;
+			case R.id.large:
+				int lfileleng=888;
+				createFile(quickfileall,lfileleng,"MB");
+				break;
+			case R.id.med:
+				int mfileleng=88;
+				createFile(quickfileall,mfileleng,"MB");
+				break;
+			case R.id.small:
+				int sfileleng=8;
+				createFile(quickfileall,sfileleng,"MB");
+				break;
+			case R.id.custom:
+				if (strqfileleng.trim().length()==0)
+				{
+					quickfileet.setErrorEnabled(true);
+					quickfileet.setError("必须给大小才能塞东西啊!");
+
+				}
+				else
+				{
+					final int qfileleng=Integer.parseInt(strqfileleng);
+					createFile(quickfileall,qfileleng,"MB");
+				}
+				break;
+			default:
+				Toast.makeText(MainActivity.this,"请选择一个大小",Toast.LENGTH_SHORT).show();
+				break;
+		}
+	}
+
 }
