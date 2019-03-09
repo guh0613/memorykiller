@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity
 		}
         if (unit=="TB")
 		{
-			fileLength=fileLength*1024*1024*1024;
+			fileLength=fileLength*1024*1024*1024*1024;
 		}
 			
 		
