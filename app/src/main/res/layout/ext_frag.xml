@@ -44,20 +44,18 @@
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:inputType="number"/>
-						
+
 				</android.support.design.widget.TextInputLayout>
-				
-			<Spinner
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/Se"
-				android:spinnerMode="dropdown"
-				android:entries="@array/unit"
-				android:gravity="center"
 
-				android:layout_gravity="center"/>
+				<Spinner
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/Se"
+					android:spinnerMode="dropdown"
+					android:entries="@array/unit"
+					android:gravity="center"
+					android:layout_gravity="center"/>
 
-				
 			</LinearLayout>
 
 		</LinearLayout>
@@ -94,8 +92,7 @@
 
 				<EditText
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="number"/>
+					android:layout_height="wrap_content"/>
 
 			</android.support.design.widget.TextInputLayout>
 
@@ -133,7 +130,8 @@
 
 				<EditText
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"/>
+					android:layout_height="wrap_content"
+					android:inputType="text"/>
 
 			</android.support.design.widget.TextInputLayout>
 
@@ -165,12 +163,7 @@
 			<CheckBox
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="安全模式（速度更慢，更加安全）"/>
-
-			<CheckBox
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="在子线程中运行"/>
+				android:text="使用旧的生成方法"/>
 
 		</LinearLayout>
 

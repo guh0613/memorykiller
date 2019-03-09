@@ -67,6 +67,7 @@
 						android:layout_height="wrap_content"
 						android:id="@+id/custom"
 						android:text="自定义(MB)"/>
+
 				</RadioGroup>
 
 				<android.support.design.widget.TextInputLayout
@@ -112,12 +113,12 @@
 			<CheckBox
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="安全模式（速度更慢，更加安全）"/>
+				android:text="使用旧的生成方法"/>
 
 			<CheckBox
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="在子线程中运行"/>
+				android:text="多线程（实验）"/>
 
 		</LinearLayout>
 

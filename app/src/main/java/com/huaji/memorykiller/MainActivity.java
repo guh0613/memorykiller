@@ -26,6 +26,7 @@ import android.*;
 import android.content.pm.*;
 import android.view.animation.*;
 
+
 public class MainActivity extends AppCompatActivity
 {
 	private DrawerLayout mdraw1;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity
 					@Override
 					public void onClick(DialogInterface dialog,int which)
 					{
-
+						Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
 					}
 				});
 			dialog.show();
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity
 		checkupdate();
 		
 	}
-	
 	
 
 		
@@ -230,11 +230,58 @@ public class MainActivity extends AppCompatActivity
 	public void checkupdate()
 	{
 		new PgyUpdateManager.Builder()
-			.setForced(false)
-			.setUserCanRetry(true)
-			.setDeleteHistroyApk(true)
-			.register();
-	}
+			
+			.setUpdateManagerListener(new UpdateManagerListener() {
+				@Override
+				public void onNoUpdateAvailable() {
+					//没有更新是回调此方法
+					Toast.makeText(MainActivity.this,"已经是最新版本",Toast.LENGTH_SHORT).show();
+					Log.d("pgyer", "there is no new version");
+				}
+				@Override
+				public void onUpdateAvailable(AppBean appBean) {
+					//有更新回调此方法
+					Log.d("pgyer", "there is new version can update"
+						  + "new versionCode is " + appBean.getVersionCode());
+					//调用以下方法，DownloadFileListener 才有效；
+					//如果完全使用自己的下载方法，不需要设置DownloadFileListener
+					AlertDialog.Builder a1=new AlertDialog.Builder(MainActivity.this);
+					a1.setTitle("更新");
+					a1.setMessage("老子更新了!");
+					a1.setPositiveButton("去看看", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								String uyt="https://www.coolapk.com/apk/com.huaji.memorykiller";
+								startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uyt)));
+							}
+						});
+					a1.setNegativeButton("老子才不要更新", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
+							}
+						});
+					
+				}
+
+				@Override
+				public void checkUpdateFailed(Exception e) {
+					//更新检测失败回调
+					//更新拒绝（应用被下架，过期，不在安装有效期，下载次数用尽）以及无网络情况会调用此接口
+					Toast.makeText(MainActivity.this,"检查更新失败，不联网怎么更新老子！",Toast.LENGTH_SHORT).show();
+					Log.e("pgyer", "check update failed ", e);
+                }
+            }).register();
+			}
+            
+               
+                
+			
+	
 	static String fileUnit="KB";
 		//写入根目录
 	public void genfile(View v)
@@ -310,15 +357,24 @@ public class MainActivity extends AppCompatActivity
 			}
 		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
 		{
+			 
+			
 			int fileLength=Integer.parseInt(strlength);
-			try{
 			String fileall="/data/data/com.huaji.memorykiller/files/"+strname;
+			try{
+				
+				
+				
+				
+			
 			createFile(fileall,fileLength,fileUnit);
+			
 			}catch(Exception e)
 			{
 				e.printStackTrace();
 			}finally
 			{
+				
 				Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -376,7 +432,7 @@ public class MainActivity extends AppCompatActivity
 		filepath =findViewById(R.id.extpath);
 		EditText sfilepath=filepath.getEditText();
 		String strpath = sfilepath.getText().toString();
-		strpath = "/sdcard/"+strpath;
+		String nstrpath = "/sdcard/"+strpath;
 		if (strlength.trim().length()==0)
 		{
 			filelength.setErrorEnabled(true);
@@ -398,6 +454,8 @@ public class MainActivity extends AppCompatActivity
 			{
 				filename.setErrorEnabled(false);
 			}
+			if(strpath.trim().length()!=0)
+			{
 			if(!strpath.endsWith("/"))
 			{
 				filepath.setErrorEnabled(true);
@@ -408,22 +466,26 @@ public class MainActivity extends AppCompatActivity
 			{
 				filepath.setErrorEnabled(false);
 			}
-		if (strname.trim().length()!=0 & strlength.trim().length()!=0 & strpath.endsWith("/"))
+			}
+		if (strname.trim().length()!=0 & strlength.trim().length()!=0 )
 		{
+			if (strpath.endsWith("/") | strpath.trim().length()==0)
+			{
 			
-			try{
-			showGifDialog1();
+				try{
 			int fileLength=Integer.parseInt(strlength);
-			String fileall=strpath+strname;
+			String fileall=nstrpath+strname;
 			createFile(fileall,fileLength,fileUnit);
 			}catch(Exception e)
 			{
 				e.printStackTrace();
 			}finally
 			{
+				
 				Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
 				
 			}
+		}
 		}
 	}
 	
@@ -453,7 +515,9 @@ public class MainActivity extends AppCompatActivity
 				}
 				break;
 			case R.id.large:
+				
 				try{
+					
 				int lfileleng=888;
 				createFile(quickfileall,lfileleng,"MB");
 				}catch(Exception e)
@@ -462,6 +526,7 @@ public class MainActivity extends AppCompatActivity
 			
 				}finally
 				{
+					
 					Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
 				}
 				break;
@@ -499,6 +564,7 @@ public class MainActivity extends AppCompatActivity
 				else
 				{
 					try{
+						
 					final int qfileleng=Integer.parseInt(strqfileleng);
 					createFile(quickfileall,qfileleng,"MB");
 					}catch(Exception e)
@@ -517,7 +583,7 @@ public class MainActivity extends AppCompatActivity
 	}
 	public void showGifDialog1() 
 	{
-        AlertDialog alert_progress = new AlertDialog.Builder(MainActivity.this).create();
+        android.support.v7.app.AlertDialog alert_progress = new android.support.v7.app.AlertDialog.Builder(MainActivity.this).create();
 		alert_progress.show(); 
 		alert_progress.setCancelable(false); // 点击背景时对话框不会消失
 		// alert_progress.dismiss(); // 取消对话框
@@ -539,4 +605,5 @@ public class MainActivity extends AppCompatActivity
 		// tranfrom.cancel();  // 取消动画
 		img.setAnimation(tranfrom);
     }
+	
 }
