@@ -2,6 +2,7 @@ package com.huaji.memorykiller;
 import android.support.v4.app.*;
 import android.view.*;
 import android.os.*;
+import android.widget.*;
 
 public class ExtFragment extends Fragment
 {
@@ -11,7 +12,9 @@ public class ExtFragment extends Fragment
 		View view=inflater.inflate(R.layout.ext_frag,container,false);
 		// TODO: Implement this method
 		return view;
-
-	}
+		
+		
+    }
 	
+
 }

@@ -20,6 +20,7 @@ import java.io.*;
 import java.nio.channels.*;
 import java.nio.*;
 import android.support.v4.app.*;
+import android.widget.AdapterView.*;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -51,11 +52,11 @@ public class MainActivity extends AppCompatActivity
 							repalceFragment(new GenFragment());
 							break;
 						case R.id.nav_quickstart:
-								repalceFragment(new QuickFregment());
-								break;
+							repalceFragment(new QuickFregment());
+							break;
 						case R.id.nav_external:
-									repalceFragment(new ExtFragment());
-									break;
+							repalceFragment(new ExtFragment());
+							break;
 						case R.id.aboutnav:
 							break;
 							default:
@@ -68,7 +69,13 @@ public class MainActivity extends AppCompatActivity
 					});
 		checkupdate();
 		
-    }
+
+	}
+	
+	
+
+		
+    
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -84,10 +91,10 @@ public class MainActivity extends AppCompatActivity
 		switch (item.getItemId())
 		{
 			case R.id.about:
-				break;
-				case R.id.updata:
-					checkupdate();
-					break;
+			break;
+			case R.id.updata:
+			checkupdate();
+			break;
 					
 		}
 		// TODO: Implement this method
@@ -101,30 +108,29 @@ public class MainActivity extends AppCompatActivity
 		transaction.commit();
 	}
 	//文件单位
-	public enum FileUnit {
-		KB, MB, GB
-		}
+	public static String fileUnit ="MB";
 
 	//文件写入
-	public boolean createFile(String targetFile, long fileLength, FileUnit unit) {
+	public boolean createFile(String targetFile, long fileLength, String unit) {
 		//指定每次分配的块大小
 		long KBSIZE = 1024;
 		long MBSIZE1 = 1024 * 1024;
 		long MBSIZE10 = 1024 * 1024 * 10;
-		switch (unit) {
-			case KB:
-				fileLength = fileLength * 1024;
-				break;
-			case MB:
-				fileLength = fileLength * 1024*1024;
-				break;
-			case GB:
-				fileLength = fileLength * 1024*1024*1024;
-				break;
-
-			default:
-				break;
+		if(unit=="KB")
+		{
+			fileLength = fileLength * 1024;
 		}
+		if(unit=="MB")
+		{
+			fileLength = fileLength * 1024*1024;
+		}
+		if(unit=="GB")
+		{
+			fileLength = fileLength * 1024*1024*1024;
+		}
+
+			
+		
 		FileOutputStream fos = null;
 		File file = new File(targetFile);
 		try {
@@ -187,5 +193,64 @@ public class MainActivity extends AppCompatActivity
 			.setUserCanRetry(true)
 			.setDeleteHistroyApk(true)
 			.register();
+	}
+		//OnItemSelected监听器
+	private class  UnitOnItemSelectedListener implements OnItemSelectedListener
+	{		
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+		{
+			String[] unit = getResources().getStringArray(R.array.unit);
+			
+			if(unit[pos].equals("KB"))
+			{
+				Toast.makeText(MainActivity.this,"娘炮才选KB", 2000).show();
+				fileUnit="KB";
+			}
+			if(unit[pos].equals("MB"))
+			{
+				Toast.makeText(MainActivity.this,"你选的是MB", 2000).show();
+				fileUnit="MB";
+			}
+			if(unit[pos].equals("GB"))
+			{
+				Toast.makeText(MainActivity.this, "GB，还行吧", 2000).show();
+				fileUnit="GB";
+			}
+			if(unit[pos].equals("TB"))
+			{
+				Toast.makeText(MainActivity.this, "真男人都选TB",2000).show();
+				fileUnit="无";
+			}
+				
+				
+		}
+		@Override
+		public void onNothingSelected(AdapterView<?> parent)
+		{
+		}
+	}			
+	public void onNothingSelected(AdapterView<?> arg0) 
+	{
+		
+	}
+		//写入外部储存
+	public void b2(View view)
+	{
+		EditText edit =(EditText) findViewById(R.id.extlength2);//获取文件大小
+		String text=edit.getText().toString();
+		EditText editname =(EditText) findViewById(R.id.extname2);
+		String filename=editname.getText().toString();
+		//由于写入文件时应用处理无响应，toast会在处理完成后弹出
+		Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
+		//获得路径
+		EditText editpath=(EditText) findViewById(R.id.extlocate3);
+		String filepath=editpath.getText().toString();
+		edit=(EditText) findViewById(R.id.extlength2);//获取文件大小
+		String input=edit.getText().toString();
+		int filelength = Integer.parseInt(input);//转换成int型
+		//写入文件
+		String filePath="/sdcard/"+filepath+filename;
+		int fileSize=filelength;
+		createFile(filePath,fileSize,fileUnit);
 	}
 }

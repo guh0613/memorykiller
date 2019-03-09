@@ -44,15 +44,20 @@
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:inputType="number"/>
-
+						
 				</android.support.design.widget.TextInputLayout>
+				
+			<Spinner
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/Se"
+				android:spinnerMode="dropdown"
+				android:entries="@array/unit"
+				android:gravity="center"
 
-				<Spinner
-					android:layout_width="0dp"
-					android:layout_height="match_parent"
-					android:layout_weight="1.0"
-					android:layout_gravity="center"/>
+				android:layout_gravity="center"/>
 
+				
 			</LinearLayout>
 
 		</LinearLayout>
@@ -128,8 +133,7 @@
 
 				<EditText
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="number"/>
+					android:layout_height="wrap_content"/>
 
 			</android.support.design.widget.TextInputLayout>
 
@@ -184,7 +188,7 @@
 		app:cardBackgroundColor="@color/cardback1"
 		android:clickable="true"
 		android:foreground="?android:attr/selectableItemBackground"
-		android:onClick="b1">
+		android:onClick="Be">
 
 		<TextView
 			android:layout_gravity="center"

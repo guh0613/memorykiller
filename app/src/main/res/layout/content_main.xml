@@ -66,11 +66,11 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:id="@+id/custom"
-						android:text="自定义"/>
+						android:text="自定义(MB)"/>
 				</RadioGroup>
 
 				<android.support.design.widget.TextInputLayout
-					android:id="@+id/ET1"
+					android:id="@+id/ETq"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_gravity="bottom">
@@ -135,7 +135,7 @@
 		app:cardBackgroundColor="@color/cardback1"
 		android:clickable="true"
 		android:foreground="?android:attr/selectableItemBackground"
-		android:onClick="b1">
+		android:onClick="Bq">
 
 		<TextView
 			android:layout_gravity="center"
