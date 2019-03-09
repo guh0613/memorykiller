@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity
 		EditText sfilename=filename.getEditText();
 		String strname=sfilename.getText().toString();
 		String strlength=sfilelength.getText().toString();
-		int fileLength=Integer.parseInt(strlength);
+		
 		if(strlength.trim().length()==0)
 		{
 			filelength.setErrorEnabled(true);
@@ -308,6 +308,7 @@ public class MainActivity extends AppCompatActivity
 			}
 		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
 		{
+			int fileLength=Integer.parseInt(strlength);
 			try{
 			String fileall="/data/data/com.huaji.memorykiller/files/"+strname;
 			createFile(fileall,fileLength,fileUnit);
