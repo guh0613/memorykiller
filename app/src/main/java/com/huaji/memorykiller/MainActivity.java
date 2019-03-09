@@ -25,6 +25,8 @@ import android.widget.AdapterView.*;
 public class MainActivity extends AppCompatActivity
 {
 	private DrawerLayout mdraw1;
+	private TextInputLayout filelength;
+	private TextInputLayout filename;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -50,9 +52,11 @@ public class MainActivity extends AppCompatActivity
 					{
 						case R.id.nav_gen:
 							repalceFragment(new GenFragment());
+							
 							break;
 						case R.id.nav_quickstart:
 							repalceFragment(new QuickFregment());
+							
 							break;
 						case R.id.nav_external:
 							repalceFragment(new ExtFragment());
@@ -69,7 +73,6 @@ public class MainActivity extends AppCompatActivity
 					});
 		checkupdate();
 		
-
 	}
 	
 	
@@ -108,7 +111,7 @@ public class MainActivity extends AppCompatActivity
 		transaction.commit();
 	}
 	//文件单位
-	public static String fileUnit ="MB";
+
 
 	//文件写入
 	public boolean createFile(String targetFile, long fileLength, String unit) {
@@ -116,6 +119,7 @@ public class MainActivity extends AppCompatActivity
 		long KBSIZE = 1024;
 		long MBSIZE1 = 1024 * 1024;
 		long MBSIZE10 = 1024 * 1024 * 10;
+		long MBSIZE100=1024*1024*100;
 		if(unit=="KB")
 		{
 			fileLength = fileLength * 1024;
@@ -128,7 +132,10 @@ public class MainActivity extends AppCompatActivity
 		{
 			fileLength = fileLength * 1024*1024*1024;
 		}
-
+        if (unit=="TB")
+		{
+			fileLength=fileLength*1024*1024*1024;
+		}
 			
 		
 		FileOutputStream fos = null;
@@ -194,63 +201,74 @@ public class MainActivity extends AppCompatActivity
 			.setDeleteHistroyApk(true)
 			.register();
 	}
-		//OnItemSelected监听器
-	private class  UnitOnItemSelectedListener implements OnItemSelectedListener
-	{		
-		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-		{
-			String[] unit = getResources().getStringArray(R.array.unit);
-			
-			if(unit[pos].equals("KB"))
-			{
-				Toast.makeText(MainActivity.this,"娘炮才选KB", 2000).show();
-				fileUnit="KB";
-			}
-			if(unit[pos].equals("MB"))
-			{
-				Toast.makeText(MainActivity.this,"你选的是MB", 2000).show();
-				fileUnit="MB";
-			}
-			if(unit[pos].equals("GB"))
-			{
-				Toast.makeText(MainActivity.this, "GB，还行吧", 2000).show();
-				fileUnit="GB";
-			}
-			if(unit[pos].equals("TB"))
-			{
-				Toast.makeText(MainActivity.this, "真男人都选TB",2000).show();
-				fileUnit="无";
-			}
-				
-				
-		}
-		@Override
-		public void onNothingSelected(AdapterView<?> parent)
-		{
-		}
-	}			
-	public void onNothingSelected(AdapterView<?> arg0) 
+	static String fileUnit;
+		//写入根目录
+	public void genfile(View v)
 	{
 		
-	}
-		//写入外部储存
-	public void b2(View view)
-	{
-		EditText edit =(EditText) findViewById(R.id.extlength2);//获取文件大小
-		String text=edit.getText().toString();
-		EditText editname =(EditText) findViewById(R.id.extname2);
-		String filename=editname.getText().toString();
-		//由于写入文件时应用处理无响应，toast会在处理完成后弹出
-		Toast.makeText(MainActivity.this,"写入完成!",Toast.LENGTH_LONG).show();
-		//获得路径
-		EditText editpath=(EditText) findViewById(R.id.extlocate3);
-		String filepath=editpath.getText().toString();
-		edit=(EditText) findViewById(R.id.extlength2);//获取文件大小
-		String input=edit.getText().toString();
-		int filelength = Integer.parseInt(input);//转换成int型
-		//写入文件
-		String filePath="/sdcard/"+filepath+filename;
-		int fileSize=filelength;
-		createFile(filePath,fileSize,fileUnit);
+		Spinner Storage_unit = (Spinner) findViewById(R.id.Se);
+		String[] mItems = getResources().getStringArray(R.array.unit);
+		ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mItems);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		Storage_unit.setAdapter(adapter);
+		Storage_unit.setOnItemSelectedListener(new OnItemSelectedListener()
+			{
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+				{
+					String[] unit = getResources().getStringArray(R.array.unit);
+
+					if(unit[pos].equals("KB"))
+					{
+
+						fileUnit="KB";
+					}
+					if(unit[pos].equals("MB"))
+					{
+
+						fileUnit="MB";
+					}
+					if(unit[pos].equals("GB"))
+					{
+
+						fileUnit="GB";
+					}
+					if(unit[pos].equals("TB"))
+					{
+
+						fileUnit="TB";
+					}
+
+
+				}
+				@Override
+				public void onNothingSelected(AdapterView<?> parent)
+				{
+				}
+			});
+		filelength=findViewById(R.id.genlength);
+		EditText sfilelength=filelength.getEditText();
+		filename=findViewById(R.id.genname);
+		EditText sfilename=filename.getEditText();
+		String strname=sfilename.getText().toString();
+		String strlength=sfilelength.getText().toString();
+		int fileLength=Integer.parseInt(strlength);
+		if (strlength.trim().length()==0)
+		{
+			filelength.setErrorEnabled(true);
+			filelength.setError("你至少给个大小吧！");
+		}
+		
+		
+			if(strname.trim().length()==0)
+			{
+				filename.setErrorEnabled(true);
+				filename.setError("你至少给个名字吧!");
+			}
+		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
+		{
+			String fileall="/data/data/com.huaji.memorykiller/files/"+strname;
+			createFile(fileall,fileLength,fileUnit);
+		}
 	}
 }

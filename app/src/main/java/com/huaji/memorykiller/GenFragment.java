@@ -6,9 +6,18 @@ import android.support.design.widget.*;
 import android.widget.*;
 import android.util.*;
 import android.text.*;
+import android.view.View.*;
 
-public class GenFragment extends Fragment
+public class GenFragment extends Fragment implements View.OnClickListener
 {
+private TextInputLayout filelength;
+private TextInputLayout filename;
+	@Override
+	public void onCreate(Bundle savedInstanceState)
+	{
+		// TODO: Implement this method
+		super.onCreate(savedInstanceState);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -18,6 +27,14 @@ public class GenFragment extends Fragment
 		return view;
 	}
 
+	@Override
+	public void onClick(View p1)
+	{
+		
+		}
+		// TODO: Implement this method
+	
 
+	
 }
 
