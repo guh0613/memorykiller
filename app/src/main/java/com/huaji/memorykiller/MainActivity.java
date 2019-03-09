@@ -285,17 +285,26 @@ public class MainActivity extends AppCompatActivity
 		String strname=sfilename.getText().toString();
 		String strlength=sfilelength.getText().toString();
 		int fileLength=Integer.parseInt(strlength);
-		if (strlength.trim().length()==0)
+		if(strlength.trim().length()==0)
 		{
 			filelength.setErrorEnabled(true);
-			filelength.setError("你至少给个大小吧！");
+			filelength.setError("你至少给个大小吧!");
+		}
+		else
+		{
+			filelength.setErrorEnabled(false);
 		}
 		
 		
 			if(strname.trim().length()==0)
 			{
+				
 				filename.setErrorEnabled(true);
 				filename.setError("你至少给个名字吧!");
+			}
+			else
+			{
+				filename.setErrorEnabled(false);
 			}
 		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
 		{
@@ -369,6 +378,10 @@ public class MainActivity extends AppCompatActivity
 			filelength.setErrorEnabled(true);
 			filelength.setError("你至少给个大小吧！");
 		}
+		else
+		{
+			filelength.setErrorEnabled(false);
+		}
 		
 		
 			if(strname.trim().length()==0)
@@ -377,8 +390,23 @@ public class MainActivity extends AppCompatActivity
 				filename.setErrorEnabled(true);
 				filename.setError("你至少给个名字吧!");
 			}
-		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
+			else
+			{
+				filename.setErrorEnabled(false);
+			}
+			if(!strpath.endsWith("/"))
+			{
+				filepath.setErrorEnabled(true);
+
+				filepath.setError("你必须以/为结尾啊!");
+			}
+			else
+			{
+				filepath.setErrorEnabled(false);
+			}
+		if (strname.trim().length()!=0 & strlength.trim().length()!=0 & strpath.endsWith("/"))
 		{
+			
 			try{
 			int fileLength=Integer.parseInt(strlength);
 			String fileall="/sdcard/"+strpath+strname;
@@ -392,6 +420,7 @@ public class MainActivity extends AppCompatActivity
 			}
 		}
 	}
+	
 	String quickfileall="/sdcard/quickfile";
 	public void quickfile(View v)
 	{
