@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity
 							repalceFragment(new ExtFragment());
 							break;
 						case R.id.aboutnav:
+							Toast.makeText(MainActivity.this,"老子太忙了，没时间写关于页",Toast.LENGTH_SHORT).show();
 							break;
 							default:
 							break;
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity
 		switch (item.getItemId())
 		{
 			case R.id.about:
+				Toast.makeText(MainActivity.this,"老子太忙了，没时间写关于页",Toast.LENGTH_SHORT).show();
 			break;
 			case R.id.updata:
 			checkupdate();
@@ -221,10 +223,7 @@ public class MainActivity extends AppCompatActivity
 		}
 		return false;
 	}
-	public void b1(View view)
-	{
-		Toast.makeText(MainActivity.this,"haha",Toast.LENGTH_SHORT).show();
-	}
+	
 
 	public void checkupdate()
 	{
@@ -234,7 +233,7 @@ public class MainActivity extends AppCompatActivity
 			.setDeleteHistroyApk(true)
 			.register();
 	}
-	static String fileUnit;
+	static String fileUnit="KB";
 		//写入根目录
 	public void genfile(View v)
 	{
@@ -300,8 +299,16 @@ public class MainActivity extends AppCompatActivity
 			}
 		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
 		{
+			try{
 			String fileall="/data/data/com.huaji.memorykiller/files/"+strname;
 			createFile(fileall,fileLength,fileUnit);
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}finally
+			{
+				Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 	//写入外部储存
@@ -372,12 +379,20 @@ public class MainActivity extends AppCompatActivity
 			}
 		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
 		{
+			try{
 			int fileLength=Integer.parseInt(strlength);
 			String fileall="/sdcard/"+strpath+strname;
 			createFile(fileall,fileLength,fileUnit);
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}finally
+			{
+				Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
-	String quickfileall="/sdcard/memorykiller/quickfile";
+	String quickfileall="/sdcard/quickfile";
 	public void quickfile(View v)
 	{
 
@@ -390,20 +405,53 @@ public class MainActivity extends AppCompatActivity
 		switch (rdquick.getCheckedRadioButtonId())
 		{
 			case R.id.splarge:
+				try{
 				int Lfileleng=8888;
 				createFile(quickfileall,Lfileleng,"MB");
+				}catch(Exception e)
+				{
+					e.printStackTrace();
+				}finally
+				{
+					Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+				}
 				break;
 			case R.id.large:
+				try{
 				int lfileleng=888;
 				createFile(quickfileall,lfileleng,"MB");
+				}catch(Exception e)
+				{
+					e.printStackTrace();
+			
+				}finally
+				{
+					Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+				}
 				break;
 			case R.id.med:
+				try{
 				int mfileleng=88;
 				createFile(quickfileall,mfileleng,"MB");
+				}catch(Exception e)
+				{
+					e.printStackTrace();
+				}finally
+				{
+					Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+				}
 				break;
 			case R.id.small:
+				try{
 				int sfileleng=8;
 				createFile(quickfileall,sfileleng,"MB");
+				}catch(Exception e)
+				{
+					e.printStackTrace();
+				}finally
+				{
+					Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+				}
 				break;
 			case R.id.custom:
 				if (strqfileleng.trim().length()==0)
@@ -414,8 +462,16 @@ public class MainActivity extends AppCompatActivity
 				}
 				else
 				{
+					try{
 					final int qfileleng=Integer.parseInt(strqfileleng);
 					createFile(quickfileall,qfileleng,"MB");
+					}catch(Exception e)
+					{
+						e.printStackTrace();
+					}finally
+					{
+						Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+					}
 				}
 				break;
 			default:
