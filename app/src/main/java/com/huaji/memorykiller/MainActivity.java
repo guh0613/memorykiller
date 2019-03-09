@@ -21,6 +21,9 @@ import java.nio.channels.*;
 import java.nio.*;
 import android.support.v4.app.*;
 import android.widget.AdapterView.*;
+import android.support.v4.content.*;
+import android.*;
+import android.content.pm.*;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -37,9 +40,35 @@ public class MainActivity extends AppCompatActivity
         repalceFragment(new QuickFregment());
 		android.support.v7.widget.Toolbar toolbar=(android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
+		if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED)
+		{
+			AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
+			dialog.setTitle("权限授予");
+			dialog.setMessage("应用检测到你没有授予基本的储存权限。如果没有授予储存权限，将不能愉快地占内存。");
+			dialog.setCancelable(false);
+			dialog.setPositiveButton("明白了，授予", new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog,int which)
+				{
+					ActivityCompat.requestPermissions(MainActivity.this,new 
+					String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+				}
+			});
+			dialog.setNegativeButton("老子就是不给", new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog,int which)
+					{
+
+					}
+				});
+			dialog.show();
+		}
 		mdraw1=(DrawerLayout) findViewById(R.id.draw1);
 		
 		ActionBar actionbar=getSupportActionBar();
+		
 		android.support.v7.app.ActionBarDrawerToggle mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mdraw1, toolbar,R.string.draw_open,R.string.draw_close);
 																		
 		mDrawerToggle.syncState();//初始化状态
