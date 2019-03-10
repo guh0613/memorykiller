@@ -25,6 +25,8 @@ import android.support.v4.content.*;
 import android.*;
 import android.content.pm.*;
 import android.view.animation.*;
+import com.readystatesoftware.systembartint.*;
+import android.graphics.*;
 
 
 public class MainActivity extends AppCompatActivity
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity
 	private TextInputLayout filelength;
 	private TextInputLayout filename;
 	private TextInputLayout filepath;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -40,7 +43,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 		PgyCrashManager.register(); 
 		setContentView(R.layout.main);
+		//当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+		StatusBarUtil.setRootViewFitsSystemWindows(this,true);
+		//设置状态栏透明
+		StatusBarUtil.setTranslucentStatus(this);
+		//一般的手机的状态栏文字和图标都是白色的, 可如果你的应用也是纯白色的, 或导致状态栏文字看不清
+		//所以如果你是这种情况,请使用以下代码, 设置状态使用深色文字图标风格, 否则你可以选择性注释掉这个if内容
 		
+			//如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
+			//这样半透明+白=灰, 状态栏的文字能看得清
+			StatusBarUtil.setStatusBarColor(this,0xFF3F51B5);
+			
         repalceFragment(new QuickFregment());
 		android.support.v7.widget.Toolbar toolbar=(android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -64,8 +77,12 @@ public class MainActivity extends AppCompatActivity
 					@Override
 					public void onClick(DialogInterface dialog,int which)
 					{
-						Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
+						Toast.makeText(MainActivity.this,"(눈_눈)不想给也得给",Toast.LENGTH_SHORT).show();
+						ActivityCompat.requestPermissions(MainActivity.this,new 
+														  String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
 					}
+						
+					
 				});
 			dialog.show();
 		}
@@ -105,7 +122,54 @@ public class MainActivity extends AppCompatActivity
 					return true;
 					}
 					});
-		checkupdate();
+
+		new PgyUpdateManager.Builder()
+
+			.setUpdateManagerListener(new UpdateManagerListener() {
+				@Override
+				public void onNoUpdateAvailable() {
+					//没有更新是回调此方法
+			
+					Log.d("pgyer", "there is no new version");
+				}
+				@Override
+				public void onUpdateAvailable(AppBean appBean) {
+					//有更新回调此方法
+					Log.d("pgyer", "there is new version can update"
+						  + "new versionCode is " + appBean.getVersionCode());
+					//调用以下方法，DownloadFileListener 才有效；
+					//如果完全使用自己的下载方法，不需要设置DownloadFileListener
+					AlertDialog.Builder a1=new AlertDialog.Builder(MainActivity.this);
+					a1.setTitle("更新");
+					a1.setMessage("老子更新了!");
+					a1.setPositiveButton("去看看", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								String uyt="https://www.coolapk.com/apk/com.huaji.memorykiller";
+								startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uyt)));
+							}
+						});
+					a1.setNegativeButton("老子才不要更新", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
+							}
+						});
+
+				}
+
+				@Override
+				public void checkUpdateFailed(Exception e) {
+					//更新检测失败回调
+					//更新拒绝（应用被下架，过期，不在安装有效期，下载次数用尽）以及无网络情况会调用此接口
+				
+					Log.e("pgyer", "check update failed ", e);
+                }
+            }).register();
 		
 	}
 	
