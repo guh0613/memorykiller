@@ -240,7 +240,8 @@ public class MainActivity extends AppCompatActivity
 		File file = new File(targetFile);
 		try {
 //如果文件存在
-			if (!file.exists()) {
+			if 
+			(!file.exists()) {
 				file.createNewFile();
 			}
 
@@ -350,7 +351,7 @@ public class MainActivity extends AppCompatActivity
 		//写入根目录
 	public void genfile(View v)
 	{
-		
+		/*
 		Spinner Storage_unit = (Spinner) findViewById(R.id.Se);
 		String[] mItems = getResources().getStringArray(R.array.unit);
 		ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mItems);
@@ -391,6 +392,7 @@ public class MainActivity extends AppCompatActivity
 				{
 				}
 			});
+			*/
 		filelength=findViewById(R.id.genlength);
 		EditText sfilelength=filelength.getEditText();
 		filename=findViewById(R.id.genname);
@@ -446,6 +448,7 @@ public class MainActivity extends AppCompatActivity
 	//写入外部储存
 	public void extfile(View v)
 	{
+		/*
 		Spinner Storage_unit = (Spinner) findViewById(R.id.Se);
 		String[] mItems = getResources().getStringArray(R.array.unit);
 		ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mItems);
@@ -486,6 +489,7 @@ public class MainActivity extends AppCompatActivity
 				{
 				}
 			});
+			*/
 		filelength=findViewById(R.id.extlength);
 		EditText sfilelength=filelength.getEditText();
 		filename=findViewById(R.id.extname);
