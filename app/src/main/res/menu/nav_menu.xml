@@ -21,13 +21,6 @@
 		
 	</menu>
 	</item>
-	<item android:title="关于">
-	 <menu>
-		 <item
-			 android:id="@+id/aboutnav"
-			 android:title="关于"
-			 android:icon="@drawable/about"/>
-	 </menu>
-	</item>
+	
 	</group>
 </menu>

@@ -2,7 +2,7 @@
     
     <item
 		android:id="@+id/about"
-		android:title="关于"/>
+		android:title="反馈问题"/>
 	<item
         android:id="@+id/updata"
         android:title="检查更新"/>

@@ -27,6 +27,7 @@ import android.content.pm.*;
 import android.view.animation.*;
 import com.readystatesoftware.systembartint.*;
 import android.graphics.*;
+import com.pgyersdk.feedback.*;
 
 
 public class MainActivity extends AppCompatActivity
@@ -111,9 +112,7 @@ public class MainActivity extends AppCompatActivity
 						case R.id.nav_external:
 							repalceFragment(new ExtFragment());
 							break;
-						case R.id.aboutnav:
-							Toast.makeText(MainActivity.this,"老子太忙了，没时间写关于页",Toast.LENGTH_SHORT).show();
-							break;
+						
 							default:
 							break;
 					}
@@ -191,7 +190,18 @@ public class MainActivity extends AppCompatActivity
 		switch (item.getItemId())
 		{
 			case R.id.about:
-				Toast.makeText(MainActivity.this,"老子太忙了，没时间写关于页",Toast.LENGTH_SHORT).show();
+				new PgyerFeedbackManager.PgyerFeedbackBuilder()
+					.setShakeInvoke(false)       //fasle 则不触发摇一摇，最后需要调用 invoke 方法
+					// true 设置需要调用 register 方法使摇一摇生效
+					.setDisplayType(PgyerFeedbackManager.TYPE.DIALOG_TYPE)   //设置以Dialog 的方式打开
+					.setColorDialogTitle("#ff000000")    //设置Dialog 标题的字体颜色，默认为颜色为#ffffff
+					.setColorTitleBg("#ff000000")        //设置Dialog 标题栏的背景色，默认为颜色为#2E2D2D
+					.setBarBackgroundColor("#FF0000")      // 设置顶部按钮和底部背景色，默认颜色为 #2E2D2D
+					.setBarButtonPressedColor("#FF0000")        //设置顶部按钮和底部按钮按下时的反馈色 默认颜色为 #383737
+					.setColorPickerBackgroundColor("#FF0000")   //设置颜色选择器的背景色,默认颜色为 #272828
+				
+					.builder()
+					.invoke();                  //激活直接显示的方式
 			break;
 			case R.id.updata:
 			checkupdate();
