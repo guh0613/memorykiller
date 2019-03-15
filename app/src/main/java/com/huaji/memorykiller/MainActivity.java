@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity
 					Log.e("pgyer", "check update failed ", e);
                 }
             }).register();
-		
+			createhistory();
 	}
 	
 
@@ -551,6 +551,7 @@ public class MainActivity extends AppCompatActivity
 			String fileall=nstrpath+strname;
 			String[] p1={fileall,strlength,fileUnit};
 			new CreateFileTask().execute(p1);
+			
 			}catch(Exception e)
 			{
 				e.printStackTrace();
@@ -816,12 +817,13 @@ public class MainActivity extends AppCompatActivity
 			// TODO: Implement this method
 
 		}
-
+		public String lastpath;
 		@Override
 		protected Boolean doInBackground(String[] p1)
 		{
 
 			String fileall1=p1[0];
+			lastpath=fileall1;
 			String filelength=p1[1];
 			int filelength1=Integer.parseInt(filelength);
 			String fileunit1=p1[2];
@@ -855,6 +857,8 @@ public class MainActivity extends AppCompatActivity
 			if(result)
 			{
 				Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+				writehistory(lastpath);
+				
 			}
 			else
 			{
@@ -945,5 +949,35 @@ public class MainActivity extends AppCompatActivity
 			return false;
 		}
 
+	}
+	public static boolean createhistory() {
+        boolean flag = false;
+        try {
+            File newfile = new File("/data/data/com.huaji.memorykiller/history.txt");
+            if (!newfile.exists()) {
+                newfile.createNewFile();
+                flag = true;
+            }
+        } catch (Exception e) {
+            System.out.println("文件创建失败！" + e);
+        }
+        return flag;
+    }
+	public static boolean writehistory(String appendFirstLineText)
+	{
+		String txtPath = "/data/data/com.huaji.memorykiller/history.txt";	//本地txt文件的路径
+
+    	String text = com.xnx3.file.FileUtil.read(txtPath, com.xnx3.file.FileUtil.UTF8);
+
+    	try {
+
+			com.xnx3.file.FileUtil.write(txtPath, appendFirstLineText+"\n"+text, com.xnx3.file.FileUtil.UTF8);
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+		return true;
 	}
 }
