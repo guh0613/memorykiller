@@ -435,23 +435,19 @@ public class MainActivity extends AppCompatActivity
 		{
 			 
 			
-			int fileLength=Integer.parseInt(strlength);
-			String fileall="/data/data/com.huaji.memorykiller/files/"+strname;
-			try{
-				
-				
-				
-				
 			
-			createFile(fileall,fileLength,fileUnit);
+			String fileall="/data/data/com.huaji.memorykiller/files/"+strname;
+			
+				
+				
+				String[] p1={fileall,strlength,fileUnit};
+				try{
+			
+			new CreateFileTask().execute(p1);
 			
 			}catch(Exception e)
 			{
-				e.printStackTrace();
-			}finally
-			{
-				
-				Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+				PgyCrashManager.reportCaughtException(e);
 			}
 		}
 	}
@@ -551,17 +547,14 @@ public class MainActivity extends AppCompatActivity
 			{
 			
 				try{
-			int fileLength=Integer.parseInt(strlength);
+			
 			String fileall=nstrpath+strname;
-			createFile(fileall,fileLength,fileUnit);
+			String[] p1={fileall,strlength,fileUnit};
+			new CreateFileTask().execute(p1);
 			}catch(Exception e)
 			{
 				e.printStackTrace();
-			}finally
-			{
-				
-				Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
-				
+				PgyCrashManager.reportCaughtException(e);
 			}
 		}
 		}
@@ -581,55 +574,45 @@ public class MainActivity extends AppCompatActivity
 		{
 			case R.id.splarge:
 				try{
-				int Lfileleng=8888;
-				createFile(quickfileall,Lfileleng,"MB");
+				
+				String[] p1={quickfileall,"8888","MB"};
+				new CreateFileTask().execute(p1);
 				}catch(Exception e)
 				{
 					e.printStackTrace();
-				}finally
-				{
-					Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
-					
+					PgyCrashManager.reportCaughtException(e);
 				}
 				break;
 			case R.id.large:
 				
 				try{
 					
-				int lfileleng=888;
-				createFile(quickfileall,lfileleng,"MB");
+					String[] p1={quickfileall,"888","MB"};
+					new CreateFileTask().execute(p1);
 				}catch(Exception e)
 				{
 					e.printStackTrace();
-			
-				}finally
-				{
-					
-					Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+			PgyCrashManager.reportCaughtException(e);
 				}
 				break;
 			case R.id.med:
 				try{
-				int mfileleng=88;
-				createFile(quickfileall,mfileleng,"MB");
+					String[] p1={quickfileall,"88","MB"};
+					new CreateFileTask().execute(p1);
 				}catch(Exception e)
 				{
 					e.printStackTrace();
-				}finally
-				{
-					Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+					PgyCrashManager.reportCaughtException(e);
 				}
 				break;
 			case R.id.small:
 				try{
-				int sfileleng=8;
-				createFile(quickfileall,sfileleng,"MB");
+					String[] p1={quickfileall,"8","MB"};
+					new CreateFileTask().execute(p1);
 				}catch(Exception e)
 				{
 					e.printStackTrace();
-				}finally
-				{
-					Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+					PgyCrashManager.reportCaughtException(e);
 				}
 				break;
 			case R.id.custom:
@@ -642,15 +625,12 @@ public class MainActivity extends AppCompatActivity
 				else
 				{
 					try{
-						
-					final int qfileleng=Integer.parseInt(strqfileleng);
-					createFile(quickfileall,qfileleng,"MB");
+						String[] p1={quickfileall,strqfileleng,"MB"};
+						new CreateFileTask().execute(p1);
 					}catch(Exception e)
 					{
 						e.printStackTrace();
-					}finally
-					{
-						Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+						PgyCrashManager.reportCaughtException(e);
 					}
 				}
 				break;
@@ -814,6 +794,155 @@ public class MainActivity extends AppCompatActivity
 		}catch(Exception e)
 		{
 			e.printStackTrace();
+		}
+
+	}
+	 class CreateFileTask extends AsyncTask<String,Integer,Boolean>
+	{
+
+
+		android.app.ProgressDialog progress=new android.app.ProgressDialog(MainActivity.this);
+
+
+		@Override
+		protected void onPreExecute()
+		{
+
+			progress.setTitle("占用内存");
+			progress.setMessage("占用内存中...");
+			progress.setCancelable(false);
+			progress.show();
+
+			// TODO: Implement this method
+
+		}
+
+		@Override
+		protected Boolean doInBackground(String[] p1)
+		{
+
+			String fileall1=p1[0];
+			String filelength=p1[1];
+			int filelength1=Integer.parseInt(filelength);
+			String fileunit1=p1[2];
+			publishProgress(filelength1);
+
+			if(createFile(fileall1,filelength1,fileunit1))
+			{
+				return true;
+			}
+
+			else{
+				return false;
+			}
+			// TODO: Implement this method
+
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer ... values)
+		{
+			// TODO: Implement this method
+			progress.setMessage("正在写入文件...");
+		}
+
+
+
+		@Override
+		protected void onPostExecute(Boolean result)
+		{
+			progress.dismiss();
+			if(result)
+			{
+				Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
+			}
+			else
+			{
+				Toast.makeText(MainActivity.this,"写入时出现问题",Toast.LENGTH_SHORT).show();
+			}
+			// TODO: Implement this method
+
+		}
+
+
+		//文件写入
+		public boolean createFile(String targetFile, long fileLength, String unit) {
+			//指定每次分配的块大小
+			long KBSIZE = 1024;
+			long MBSIZE1 = 1024 * 1024;
+			long MBSIZE10 = 1024 * 1024 * 10;
+			long MBSIZE100=1024*1024*100;
+			if(unit=="KB")
+			{
+				fileLength = fileLength * 1024;
+			}
+			if(unit=="MB")
+			{
+				fileLength = fileLength * 1024*1024;
+			}
+			if(unit=="GB")
+			{
+				fileLength = fileLength * 1024*1024*1024;
+			}
+			if (unit=="TB")
+			{
+				fileLength=fileLength*1024*1024*1024*1024;
+			}
+
+
+			FileOutputStream fos = null;
+			File file = new File(targetFile);
+			try {
+//如果文件存在
+				if 
+				(!file.exists()) {
+					file.createNewFile();
+				}
+
+				long batchSize = 0;
+				batchSize = fileLength;
+				if (fileLength > KBSIZE) {
+					batchSize = KBSIZE;
+				}
+				if (fileLength > MBSIZE1) {
+					batchSize = MBSIZE1;
+				}
+				if (fileLength > MBSIZE10) {
+					batchSize = MBSIZE10;
+				}
+				if (fileLength >MBSIZE100){
+					batchSize = MBSIZE100;
+				}
+				long count = fileLength / batchSize;
+				long last = fileLength % batchSize;
+
+				fos = new FileOutputStream(file);
+				FileChannel fileChannel = fos.getChannel();
+				for (int i = 0; i < count; i++) {
+					ByteBuffer buffer = ByteBuffer.allocate((int) batchSize);
+					fileChannel.write(buffer);
+
+				}
+				if (last != 0) {
+					ByteBuffer buffer = ByteBuffer.allocate((int) last);
+					fileChannel.write(buffer);
+				}
+				fos.close();
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				PgyCrashManager.reportCaughtException(e);
+			} finally {
+				try {
+					if (fos != null) {
+						fos.close();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+					PgyCrashManager.reportCaughtException(e);
+				}
+			}
+			return false;
 		}
 
 	}
