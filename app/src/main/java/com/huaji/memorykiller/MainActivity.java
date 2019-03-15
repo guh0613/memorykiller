@@ -560,7 +560,7 @@ public class MainActivity extends AppCompatActivity
 		}
 	}
 	
-	String quickfileall= "/sdcard/Android/data/com.huaji.memorykiller/cache/quickfile";
+	String quickfileall= "/sdcard/Android/data/com.huaji.memorykiller/quickfile";
 	public void quickfile(View v)
 	{
 
