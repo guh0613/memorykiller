@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity
 								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
 							}
 						});
-
+                  a1.show();
 				}
 
 				@Override
@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity
 								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
 							}
 						});
-					
+					a1.show();
 				}
 
 				@Override
@@ -567,7 +567,7 @@ public class MainActivity extends AppCompatActivity
 		}
 	}
 	
-	String quickfileall="/sdcard/quickfile";
+	String quickfileall= "/sdcard/Android/data/com.huaji.memorykiller/cache/quickfile";
 	public void quickfile(View v)
 	{
 
@@ -683,5 +683,138 @@ public class MainActivity extends AppCompatActivity
 		// tranfrom.cancel();  // 取消动画
 		img.setAnimation(tranfrom);
     }
-	
+	public void genfilede(View v)
+	{
+		
+		final File quickfile=new File("/data/data/com.huaji.memorykiller/files");
+		try 
+		{
+			AlertDialog.Builder dequ=new AlertDialog.Builder(MainActivity.this);
+			dequ.setTitle("删除");
+			dequ.setMessage("确定要删除已创建的所有内存吗？");
+			dequ.setPositiveButton("老子确定了", new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog,int which)
+					{
+						File[] files = quickfile.listFiles();
+						if(files.length!=0)
+						{
+							Toast.makeText(MainActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
+						
+						for (int i = 0; i < files.length; i++) {
+							File f = files[i];
+							f.delete();
+						}
+						}
+						else
+						{
+							Toast.makeText(MainActivity.this,"没有找到内存文件，删除失败",Toast.LENGTH_SHORT).show();
+						}
+						
+					}
+				});
+			dequ.setNegativeButton("老子后悔了", new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog,int which)
+					{
+						Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
+					}
+				});
+			dequ.show();
+
+
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+	public void quickfilede(View v)
+	{
+		final File quickfile=new File(getExternalCacheDir(),"quickfile");
+		try 
+		{
+			AlertDialog.Builder dequ=new AlertDialog.Builder(MainActivity.this);
+			dequ.setTitle("删除");
+			dequ.setMessage("确定要删除已创建的内存吗？");
+			dequ.setPositiveButton("老子确定了", new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog,int which)
+					{
+						if (quickfile.exists())
+						{
+							quickfile.delete();
+							Toast.makeText(MainActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
+							
+						}
+						else
+						{
+							Toast.makeText(MainActivity.this,"没有找到内存文件，删除失败",Toast.LENGTH_SHORT).show();
+							
+						}
+					}
+				});
+			dequ.setNegativeButton("老子后悔了", new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog,int which)
+					{
+						Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
+					}
+				});
+			dequ.show();
+			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	}
+	public void oldquickfilede(View v)
+	{
+		final File quickfile1=new File("/storage/emulated/0","quickfile");
+		try 
+		{
+			AlertDialog.Builder dequ=new AlertDialog.Builder(MainActivity.this);
+			dequ.setTitle("删除旧版文件");
+			dequ.setMessage("如果你曾经使用1.17及更早版本创建过内存，可以在这里删除。");
+			dequ.setPositiveButton("老子确定了", new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog,int which)
+					{
+						if (quickfile1.exists())
+						{
+							quickfile1.delete();
+							Toast.makeText(MainActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
+
+						}
+						else
+						{
+							Toast.makeText(MainActivity.this,"没有找到内存文件，删除失败",Toast.LENGTH_SHORT).show();
+
+						}
+					}
+				});
+			dequ.setNegativeButton("老子后悔了", new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog,int which)
+					{
+						Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
+					}
+				});
+			dequ.show();
+
+
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+	}
 }
