@@ -1,5 +1,5 @@
 package com.huaji.memorykiller;
-import org.apache.http.util.*;
+import org.apache.http.utils.*;
 import android.os.*;
 import java.io.*;
 

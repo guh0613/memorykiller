@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.huaji.memorykiller"
     android:installLocation="internalOnly" >
-    <uses-sdk
-        android:minSdkVersion="21"
-        android:targetSdkVersion="28" />
+
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
