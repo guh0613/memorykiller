@@ -1,12 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
 		<item android:title="快速开始">
-		<menu>
-    <item
-        android:id="@+id/nav_quickstart"
-        android:title="快速占内存"
-		android:icon="@drawable/quick"/>
-		</menu>
+			<menu>
+    			<item
+        			android:id="@+id/nav_quickstart"
+        			android:title="快速占内存"
+					android:icon="@drawable/quick"/>
+			</menu>
 		</item>
 	<item android:title="开始占内存">
 	<menu>
@@ -21,6 +21,13 @@
 		
 	</menu>
 	</item>
-	
+	<item android:title="我后悔了，我想删了">
+		<menu>
+			<item
+				android:id="@+id/nav_del"
+				android:title="删除"
+				android:icon="@drawable/del"/>
+		</menu>
+	</item>
 	</group>
 </menu>

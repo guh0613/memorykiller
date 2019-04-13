@@ -113,6 +113,9 @@ public class MainActivity extends AppCompatActivity
 							repalceFragment(new ExtFragment());
 							break;
 						
+						case R.id.nav_del:
+							repalceFragment(new DelFragment());
+						
 							default:
 							break;
 					}
@@ -170,6 +173,17 @@ public class MainActivity extends AppCompatActivity
                 }
             }).register();
 			createhistory();
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			//这是是删除
+			
 	}
 	
 
