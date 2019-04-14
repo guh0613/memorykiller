@@ -20,8 +20,13 @@ public class DelFragment extends Fragment
 		//Something();
 		
 		List<CreatedFile> mList=new ArrayList<>();
-		CreatedFile one =new CreatedFile("我是路径");
-		mList.add(one);
+		
+		for(int i=1;i<21;i++)
+		{
+			CreatedFile one =new CreatedFile("我是路径"+i);
+			mList.add(one);
+		}
+		
 		
 		RecyclerView recyclerView=(RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());

@@ -1,7 +1,8 @@
 package com.huaji.memorykiller;
-import org.apache.http.utils.*;
+
 import android.os.*;
 import java.io.*;
+import org.apache.http.util.*;
 
 public class OSUtils {
 

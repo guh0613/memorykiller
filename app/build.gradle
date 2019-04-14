@@ -5,8 +5,7 @@ android {
         tasks.lint.enabled = false
     }
     compileSdkVersion 28
-
-    useLibrary 'org.apache.http.legacy'
+	
     defaultConfig {
         applicationId "com.huaji.memorykiller"
         minSdkVersion 14
