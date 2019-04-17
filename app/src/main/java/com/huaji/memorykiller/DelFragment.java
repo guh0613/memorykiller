@@ -9,6 +9,7 @@ import android.util.*;
 import android.support.v7.widget.*;
 import java.util.*;
 import com.huaji.memorykiller.*;
+import org.litepal.*;
 
 public class DelFragment extends Fragment
 {
@@ -19,13 +20,9 @@ public class DelFragment extends Fragment
 		// TODO: Implement this method
 		//Something();
 		
-		List<CreatedFile> mList=new ArrayList<>();
+		List<HistoryPath> mList= LitePal.findAll(HistoryPath.class);
 		
-		for(int i=1;i<21;i++)
-		{
-			CreatedFile one =new CreatedFile("我是路径"+i);
-			mList.add(one);
-		}
+		
 		
 		
 		RecyclerView recyclerView=(RecyclerView) view.findViewById(R.id.recyclerView);

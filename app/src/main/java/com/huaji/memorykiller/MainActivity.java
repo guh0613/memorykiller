@@ -28,6 +28,8 @@ import android.view.animation.*;
 import com.readystatesoftware.systembartint.*;
 import android.graphics.*;
 import com.pgyersdk.feedback.*;
+import java.util.*;
+import org.litepal.*;
 
 
 public class MainActivity extends AppCompatActivity
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity
 	private TextInputLayout filelength;
 	private TextInputLayout filename;
 	private TextInputLayout filepath;
+	private HistoryPath HP = new HistoryPath();
+	//private List<HistoryPath> allPath = LitePal.findAll(HistoryPath.class);
 	
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -181,8 +185,8 @@ public class MainActivity extends AppCompatActivity
 			
 			
 			
+		
 			
-			//这是是删除
 			
 	}
 	
@@ -458,10 +462,13 @@ public class MainActivity extends AppCompatActivity
 				try{
 			
 			new CreateFileTask().execute(p1);
-			
+			//HP.setId(allPath.size());
+			HP.setName(fileall);
+			HP.save();
 			}catch(Exception e)
 			{
 				PgyCrashManager.reportCaughtException(e);
+				
 			}
 		}
 	}
@@ -565,7 +572,9 @@ public class MainActivity extends AppCompatActivity
 			String fileall=nstrpath+strname;
 			String[] p1={fileall,strlength,fileUnit};
 			new CreateFileTask().execute(p1);
-			
+			//HP.setId(allPath.size());
+			HP.setName(fileall);
+			HP.save();
 			}catch(Exception e)
 			{
 				e.printStackTrace();
@@ -592,6 +601,7 @@ public class MainActivity extends AppCompatActivity
 				
 				String[] p1={quickfileall,"8888","MB"};
 				new CreateFileTask().execute(p1);
+					
 				}catch(Exception e)
 				{
 					e.printStackTrace();

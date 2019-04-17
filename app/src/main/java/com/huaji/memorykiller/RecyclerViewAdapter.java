@@ -14,7 +14,7 @@ import android.os.*;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private List<CreatedFile> mList;
+    private List<HistoryPath> mList;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         
@@ -31,7 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     //传入展示数据,并且赋值给全局变量
-    public RecyclerViewAdapter(List<CreatedFile> List){
+    public RecyclerViewAdapter(List<HistoryPath> List){
         mList=List;
     }
 
@@ -46,16 +46,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //对RecyclerView的子项数据进行赋值
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        CreatedFile AlarmTime = mList.get(position);
-        holder.titleTextView.setText(AlarmTime.getTime());
+        HistoryPath Path = mList.get(position);
+        holder.titleTextView.setText(Path.getName());
 		
         //点击事件
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					int position=holder.getAdapterPosition();
-					CreatedFile AlarmTime=mList.get(position);
-					Toast.makeText(v.getContext(),AlarmTime.getTime() + "当前位置" + position,Toast.LENGTH_SHORT).show();
+					HistoryPath Path=mList.get(position);
+					Toast.makeText(v.getContext(),Path.getName() + "当前位置" + position,Toast.LENGTH_SHORT).show();
+					
 					
 
 				}
