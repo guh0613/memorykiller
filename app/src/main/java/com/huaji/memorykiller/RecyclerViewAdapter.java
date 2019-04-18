@@ -115,7 +115,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 						Toast.makeText(v.getContext(),"是不是......发生了什么错误",2000).show();
 					}
 					
-					Toast.makeText(v.getContext(),Path.getName() + "当前位置" + position,Toast.LENGTH_SHORT).show();
+					//Toast.makeText(v.getContext(),Path.getName() + "当前位置" + position,Toast.LENGTH_SHORT).show();
 					//LitePal.deleteAll(HistoryPath.class, "name = ?" ,Path.getName() ); 
 					
 
