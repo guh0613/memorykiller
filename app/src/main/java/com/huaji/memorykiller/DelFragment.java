@@ -10,6 +10,11 @@ import android.support.v7.widget.*;
 import java.util.*;
 import com.huaji.memorykiller.*;
 import org.litepal.*;
+import android.graphics.*;
+import android.graphics.drawable.*;
+import android.content.*;
+import android.content.res.*;
+import android.support.v4.content.*;
 
 public class DelFragment extends Fragment
 {
@@ -29,17 +34,16 @@ public class DelFragment extends Fragment
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         RecyclerViewAdapter adapter=new RecyclerViewAdapter(mList);
-        recyclerView.setAdapter(adapter);
+		recyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
 		
-    
-	/*private void Something()
-	{
-
-		AlarmTime one= new AlarmTime( "13:00");
-		mList.add(one);
-
-
-	}*/
+        recyclerView.setAdapter(adapter);
+		/*
+		DefaultItemAnimator animator = new DefaultItemAnimator();
+		animator.setAddDuration(500);
+        animator.setRemoveDuration(500);
+		recyclerView.setItemAnimator(animator);
+    */
+	
 	
 		return view;
 
@@ -47,3 +51,4 @@ public class DelFragment extends Fragment
 
 
 }
+

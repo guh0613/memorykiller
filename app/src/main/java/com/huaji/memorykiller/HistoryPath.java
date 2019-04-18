@@ -8,28 +8,30 @@ public class HistoryPath extends LitePalSupport{
     @Column(unique = true, defaultValue = "unknown") 
     private String name; 
 	
-	@Column(nullable = false)
+	/*@Column(nullable = false)*/
 	private Long id;
+	
+	
 	
 	public String getName()
 	{
         return name;
     }
 	
-	/*public Long getId()
+	public Long getId()
 	{
 		return id;
-	}*/
+	}
 
     public void setName(String name)
 	{
         this.name = name;
     }
 	
-	/*public void setId(long id)
+	public void setId(long id)
 	{
 		this.id = id;
-	}*/
+	}
     
     
     

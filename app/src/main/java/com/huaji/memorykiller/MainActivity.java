@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity
 	private TextInputLayout filelength;
 	private TextInputLayout filename;
 	private TextInputLayout filepath;
-	private HistoryPath HP = new HistoryPath();
-	//private List<HistoryPath> allPath = LitePal.findAll(HistoryPath.class);
+	
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -176,11 +176,11 @@ public class MainActivity extends AppCompatActivity
 					Log.e("pgyer", "check update failed ", e);
                 }
             }).register();
-			createhistory();
 			
 			
 			
 			
+			//LitePal.deleteAll(HistoryPath.class);
 			
 			
 			
@@ -462,9 +462,12 @@ public class MainActivity extends AppCompatActivity
 				try{
 			
 			new CreateFileTask().execute(p1);
-			//HP.setId(allPath.size());
+			HistoryPath HP = new HistoryPath();
+			/*long i = (int)(Math.random()*10086110);
+			HP.setId(i);*/
 			HP.setName(fileall);
 			HP.save();
+			
 			}catch(Exception e)
 			{
 				PgyCrashManager.reportCaughtException(e);
@@ -572,7 +575,8 @@ public class MainActivity extends AppCompatActivity
 			String fileall=nstrpath+strname;
 			String[] p1={fileall,strlength,fileUnit};
 			new CreateFileTask().execute(p1);
-			//HP.setId(allPath.size());
+			HistoryPath HP = new HistoryPath();
+			//HP.setId((int)(Math.random()*10086110));
 			HP.setName(fileall);
 			HP.save();
 			}catch(Exception e)
@@ -881,7 +885,7 @@ public class MainActivity extends AppCompatActivity
 			if(result)
 			{
 				Toast.makeText(MainActivity.this,"写入完成！",Toast.LENGTH_SHORT).show();
-				writehistory(lastpath);
+				
 				
 			}
 			else
@@ -974,34 +978,5 @@ public class MainActivity extends AppCompatActivity
 		}
 
 	}
-	public static boolean createhistory() {
-        boolean flag = false;
-        try {
-            File newfile = new File("/data/data/com.huaji.memorykiller/history.txt");
-            if (!newfile.exists()) {
-                newfile.createNewFile();
-                flag = true;
-            }
-        } catch (Exception e) {
-            System.out.println("文件创建失败！" + e);
-        }
-        return flag;
-    }
-	public static boolean writehistory(String appendFirstLineText)
-	{
-		String txtPath = "/data/data/com.huaji.memorykiller/history.txt";	//本地txt文件的路径
-
-    	String text = com.xnx3.file.FileUtil.read(txtPath, com.xnx3.file.FileUtil.UTF8);
-
-    	try {
-
-			com.xnx3.file.FileUtil.write(txtPath, appendFirstLineText+"\n"+text, com.xnx3.file.FileUtil.UTF8);
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}
-		return true;
-	}
+	
 }
