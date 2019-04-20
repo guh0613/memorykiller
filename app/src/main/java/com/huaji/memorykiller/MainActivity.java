@@ -58,7 +58,44 @@ public class MainActivity extends AppCompatActivity
 			//如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
 			//这样半透明+白=灰, 状态栏的文字能看得清
 			StatusBarUtil.setStatusBarColor(this,0xFF3F51B5);
-			
+		SharedPreferences sp=this.getPreferences(MODE_PRIVATE);
+		int havereadlogs =sp.getInt("havereadlogs",2);
+		try{
+			if(havereadlogs==2)
+			{
+				SharedPreferences.Editor editor=sp.edit();
+				editor.putInt("havereadlogs",1);
+				editor.commit();
+
+				AlertDialog.Builder dialog2=new AlertDialog.Builder(MainActivity.this);
+				dialog2.setTitle("发送日志");
+				dialog2.setMessage("为了帮助开发者更加方便地抓爬虫，在发生闪退时应用会自动发送您的运行日志。如果您不想发送，也可以选择不允许。");
+				dialog2.setCancelable(false);
+				dialog2.setPositiveButton("明白了", new DialogInterface.OnClickListener()
+					{
+						@Override
+						public void onClick(DialogInterface dialog,int which)
+						{
+
+						}
+					});
+				dialog2.setNegativeButton("老子不允许", new DialogInterface.OnClickListener()
+					{
+						@Override
+						public void onClick(DialogInterface dialog,int which)
+						{
+							Toast.makeText(MainActivity.this,"将不会发送日志",Toast.LENGTH_SHORT).show();
+							PgyCrashManager.unregister();
+						}
+
+
+					});
+				dialog2.show();
+			}
+		}catch (Exception e)
+		{
+			PgyCrashManager.reportCaughtException(e);
+		}
         repalceFragment(new QuickFregment());
 		android.support.v7.widget.Toolbar toolbar=(android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -82,9 +119,8 @@ public class MainActivity extends AppCompatActivity
 					@Override
 					public void onClick(DialogInterface dialog,int which)
 					{
-						Toast.makeText(MainActivity.this,"(눈_눈)不想给也得给",Toast.LENGTH_SHORT).show();
-						ActivityCompat.requestPermissions(MainActivity.this,new 
-														  String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+						Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
+						
 					}
 						
 					
@@ -130,16 +166,18 @@ public class MainActivity extends AppCompatActivity
 					});
 
 		new PgyUpdateManager.Builder()
-
+			.setForced(false)                //设置是否强制提示更新,非自定义回调更新接口此方法有用
+			.setUserCanRetry(true)         //失败后是否提示重新下载，非自定义下载 apk 回调此方法有用
+			.setDeleteHistroyApk(true)     // 检查更新前是否删除本地历史 Apk， 默认为true
 			.setUpdateManagerListener(new UpdateManagerListener() {
 				@Override
 				public void onNoUpdateAvailable() {
 					//没有更新是回调此方法
-			
+
 					Log.d("pgyer", "there is no new version");
 				}
 				@Override
-				public void onUpdateAvailable(AppBean appBean) {
+				public void onUpdateAvailable(final AppBean appBean) {
 					//有更新回调此方法
 					Log.d("pgyer", "there is new version can update"
 						  + "new versionCode is " + appBean.getVersionCode());
@@ -165,17 +203,68 @@ public class MainActivity extends AppCompatActivity
 								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
 							}
 						});
-                  a1.show();
+					a1.setNeutralButton("直接更新", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								PgyUpdateManager.downLoadApk(appBean.getDownloadURL());
+							}
+						});
+					a1.show();
 				}
 
 				@Override
 				public void checkUpdateFailed(Exception e) {
 					//更新检测失败回调
 					//更新拒绝（应用被下架，过期，不在安装有效期，下载次数用尽）以及无网络情况会调用此接口
-				
+
 					Log.e("pgyer", "check update failed ", e);
                 }
-            }).register();
+				
+            })
+			.setDownloadFileListener(new DownloadFileListener() {   
+                @Override
+                public void downloadFailed() {
+                    //下载失败
+                    Log.e("pgyer", "download apk failed");
+					AlertDialog.Builder a1=new AlertDialog.Builder(MainActivity.this);
+					a1.setTitle("下载失败");
+					a1.setMessage("直接更新失败，是否去酷安手动更新？");
+					a1.setPositiveButton("去看看", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								String uyt="https://www.coolapk.com/apk/com.huaji.memorykiller";
+								startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uyt)));
+							}
+						});
+					a1.setNegativeButton("老子才不要更新", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
+							}
+						});
+
+                }
+
+                @Override
+                public void downloadSuccessful(Uri uri) {
+                    Log.e("pgyer", "download apk failed");
+                    // 使用蒲公英提供的安装方法提示用户 安装apk
+                    PgyUpdateManager.installApk(uri);  
+				}
+
+                @Override
+                public void onProgressUpdate(Integer... integers) {
+                    Log.e("pgyer", "update download apk progress" + integers);
+                }})
+			.register();
+		
+	
 			
 			
 			
@@ -323,7 +412,7 @@ public class MainActivity extends AppCompatActivity
 	public void checkupdate()
 	{
 		new PgyUpdateManager.Builder()
-			
+
 			.setUpdateManagerListener(new UpdateManagerListener() {
 				@Override
 				public void onNoUpdateAvailable() {
@@ -332,7 +421,7 @@ public class MainActivity extends AppCompatActivity
 					Log.d("pgyer", "there is no new version");
 				}
 				@Override
-				public void onUpdateAvailable(AppBean appBean) {
+				public void onUpdateAvailable(final AppBean appBean) {
 					//有更新回调此方法
 					Log.d("pgyer", "there is new version can update"
 						  + "new versionCode is " + appBean.getVersionCode());
@@ -358,6 +447,14 @@ public class MainActivity extends AppCompatActivity
 								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
 							}
 						});
+					a1.setNeutralButton("直接更新", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								PgyUpdateManager.downLoadApk(appBean.getDownloadURL());
+							}
+						});
 					a1.show();
 				}
 
@@ -365,11 +462,51 @@ public class MainActivity extends AppCompatActivity
 				public void checkUpdateFailed(Exception e) {
 					//更新检测失败回调
 					//更新拒绝（应用被下架，过期，不在安装有效期，下载次数用尽）以及无网络情况会调用此接口
-					Toast.makeText(MainActivity.this,"检查更新失败，不联网怎么更新老子！",Toast.LENGTH_SHORT).show();
+
 					Log.e("pgyer", "check update failed ", e);
                 }
-            }).register();
-			}
+            })
+			.setDownloadFileListener(new DownloadFileListener() {   
+                @Override
+                public void downloadFailed() {
+                    //下载失败
+                    Log.e("pgyer", "download apk failed");
+					AlertDialog.Builder a1=new AlertDialog.Builder(MainActivity.this);
+					a1.setTitle("下载失败");
+					a1.setMessage("直接更新失败，是否去酷安手动更新？");
+					a1.setPositiveButton("去看看", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								String uyt="https://www.coolapk.com/apk/com.huaji.memorykiller";
+								startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uyt)));
+							}
+						});
+					a1.setNegativeButton("老子才不要更新", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog,int which)
+							{
+								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
+							}
+						});
+
+                }
+
+                @Override
+                public void downloadSuccessful(Uri uri) {
+                    Log.e("pgyer", "download apk failed");
+                    // 使用蒲公英提供的安装方法提示用户 安装apk
+                    PgyUpdateManager.installApk(uri);  
+				}
+
+                @Override
+                public void onProgressUpdate(Integer... integers) {
+                    Log.e("pgyer", "update download apk progress" + integers);
+                }})
+			.register();
+	}
             
                
                 
@@ -452,8 +589,14 @@ public class MainActivity extends AppCompatActivity
 		if (strname.trim().length()!=0 & strlength.trim().length()!=0)
 		{
 			 
-			
-			
+			int intfilelength=Integer.parseInt(strlength);
+			if(intfilelength==0)
+			{
+				filelength.setErrorEnabled(true);
+				filelength.setError("你想让老子占个寂寞？");
+			}
+			else{
+				filelength.setErrorEnabled(false);
 			String fileall="/data/data/com.huaji.memorykiller/files/"+strname;
 			
 				
@@ -474,6 +617,7 @@ public class MainActivity extends AppCompatActivity
 				
 			}
 		}
+	}
 	}
 	//写入外部储存
 	public void extfile(View v)
@@ -569,7 +713,14 @@ public class MainActivity extends AppCompatActivity
 		{
 			if (strpath.endsWith("/") | strpath.trim().length()==0)
 			{
-			
+				int intfilelength=Integer.parseInt(strlength);
+				if(intfilelength==0)
+				{
+					filelength.setErrorEnabled(true);
+					filelength.setError("你想让老子占个寂寞？");
+				}
+				else{
+					filelength.setErrorEnabled(false);
 				try{
 			
 			String fileall=nstrpath+strname;
@@ -587,7 +738,7 @@ public class MainActivity extends AppCompatActivity
 		}
 		}
 	}
-	
+	}
 	String quickfileall= "/sdcard/Android/data/com.huaji.memorykiller/quickfile";
 	public void quickfile(View v)
 	{
@@ -645,7 +796,7 @@ public class MainActivity extends AppCompatActivity
 				}
 				break;
 			case R.id.custom:
-				if (strqfileleng.trim().length()==0)
+				if (strqfileleng.trim().length()==0|Integer.parseInt(strqfileleng)==0)
 				{
 					quickfileet.setErrorEnabled(true);
 					quickfileet.setError("必须给大小才能塞东西啊!");
@@ -653,6 +804,7 @@ public class MainActivity extends AppCompatActivity
 				}
 				else
 				{
+					
 					try{
 						String[] p1={quickfileall,strqfileleng,"MB"};
 						new CreateFileTask().execute(p1);
@@ -662,6 +814,7 @@ public class MainActivity extends AppCompatActivity
 						PgyCrashManager.reportCaughtException(e);
 					}
 				}
+				
 				break;
 			default:
 				Toast.makeText(MainActivity.this,"请选择一个大小",Toast.LENGTH_SHORT).show();
@@ -742,7 +895,7 @@ public class MainActivity extends AppCompatActivity
 	}
 	public void quickfilede(View v)
 	{
-		final File quickfile=new File(getExternalCacheDir(),"quickfile");
+		final File quickfile=new File("/storage/emulated/0/Android/data/com.huaji.memorykiller","quickfile");
 		try 
 		{
 			AlertDialog.Builder dequ=new AlertDialog.Builder(MainActivity.this);
@@ -757,12 +910,12 @@ public class MainActivity extends AppCompatActivity
 						{
 							quickfile.delete();
 							Toast.makeText(MainActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
-							
+
 						}
 						else
 						{
 							Toast.makeText(MainActivity.this,"没有找到内存文件，删除失败",Toast.LENGTH_SHORT).show();
-							
+
 						}
 					}
 				});
@@ -775,13 +928,13 @@ public class MainActivity extends AppCompatActivity
 					}
 				});
 			dequ.show();
-			
-			
+
+
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
+
 	}
 	public void oldquickfilede(View v)
 	{

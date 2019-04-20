@@ -1,6 +1,7 @@
 package com.huaji.memorykiller;
 import android.app.*;
 import android.content.*;
+import com.pgyersdk.crash.*;
 
 public class MemApplication extends Application
 {
@@ -11,6 +12,7 @@ public class MemApplication extends Application
 	{
 		// TODO: Implement this method
 		context=getApplicationContext();
+		PgyCrashManager.register();
 	}
 	public static Context getContext()
 	{
