@@ -4,6 +4,6 @@
         <item>KB</item>
         <item>MB</item>
         <item>GB</item>
-		<item>TB(有种就试试)</item>
+		<item>TB</item>
     </string-array>
 </resources>
