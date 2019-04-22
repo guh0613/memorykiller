@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
 	private TextInputLayout filelength;
 	private TextInputLayout filename;
 	private TextInputLayout filepath;
-	
+	private long[] counts= new long[5];
 	
 	
     @Override
@@ -154,7 +154,21 @@ public class MainActivity extends AppCompatActivity
 							break;
 						
 						case R.id.nav_del:
-							repalceFragment(new DelFragment());
+							if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED)
+							{
+								Toast.makeText(MainActivity.this,"你是不是没给老子读写权限",2000).show();
+							}
+							else
+							{
+								repalceFragment(new DelFragment());
+							}
+							break;
+						
+						case R.id.nav_about:
+							repalceFragment(new AboFragment());
+							
+							break;
+							
 						
 							default:
 							break;
@@ -845,6 +859,17 @@ public class MainActivity extends AppCompatActivity
 		// tranfrom.cancel();  // 取消动画
 		img.setAnimation(tranfrom);
     }
+	public void about(View v)
+	{		
+		System.arraycopy(counts, 1, counts, 0, counts.length - 1);//源数组  源数组要复制的起始位置 目的数组  目的数组放置的起始位置  复制的长度
+		counts[counts.length - 1] = SystemClock.uptimeMillis();
+		if (counts[0] > SystemClock.uptimeMillis() - 1500)
+		{
+			Toast.makeText(MainActivity.this,"你好",2000).show();
+			counts= new long[5];
+		}
+	}
+	
 	public void genfilede(View v)
 	{
 		
@@ -979,6 +1004,7 @@ public class MainActivity extends AppCompatActivity
 		}
 
 	}
+	
 	 class CreateFileTask extends AsyncTask<String,Integer,Boolean>
 	{
 

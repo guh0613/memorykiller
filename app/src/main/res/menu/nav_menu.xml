@@ -29,5 +29,13 @@
 				android:icon="@drawable/del"/>
 		</menu>
 	</item>
+	<item android:title="关于">
+		<menu>
+			<item
+				android:id="@+id/nav_about"
+				android:title="关于"
+				android:icon="@drawable/del"/>
+		</menu>
+	</item>
 	</group>
 </menu>
