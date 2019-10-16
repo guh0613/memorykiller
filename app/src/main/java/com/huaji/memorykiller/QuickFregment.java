@@ -1,11 +1,11 @@
 package com.huaji.memorykiller;
-import android.support.v4.app.*;
-import android.view.*;
-import android.os.*;
-import android.support.design.widget.*;
-import android.widget.*;
-import android.text.*;
-import android.util.*;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 public class QuickFregment extends Fragment
 {

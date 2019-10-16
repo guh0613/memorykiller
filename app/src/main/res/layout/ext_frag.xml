@@ -6,10 +6,9 @@
 	android:layout_height="match_parent"
 	android:gravity="center">
 
-	<android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
 		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:id="@+id/card1"
-		android:layout_width="match_parent"
+        android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		app:cardCornerRadius="9dp"
 		app:contentPadding="2dp"
@@ -34,7 +33,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
-				<android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
 					android:id="@+id/extlength"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -45,7 +44,7 @@
 						android:layout_height="wrap_content"
 						android:inputType="number"/>
 
-				</android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
 				<Spinner
 					android:layout_width="wrap_content"
@@ -60,12 +59,11 @@
 
 		</LinearLayout>
 
-	</android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-	<android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
 		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:id="@+id/card1"
-		android:layout_width="match_parent"
+        android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		app:cardCornerRadius="9dp"
 		app:contentPadding="5dp"
@@ -85,7 +83,7 @@
 				android:gravity="center"
 				android:layout_gravity="center"/>
 
-			<android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/extname"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
@@ -94,16 +92,15 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 
-			</android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 		</LinearLayout>
 
-	</android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-	<android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
 		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:id="@+id/card1"
-		android:layout_width="match_parent"
+        android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		app:cardCornerRadius="9dp"
 		app:contentPadding="5dp"
@@ -123,7 +120,7 @@
 				android:gravity="center"
 				android:layout_gravity="center"/>
 
-			<android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/extpath"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
@@ -133,16 +130,15 @@
 					android:layout_height="wrap_content"
 					android:inputType="text"/>
 
-			</android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 		</LinearLayout>
 
-	</android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-	<android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
 		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:id="@+id/card2"
-		android:layout_width="match_parent"
+        android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		app:cardCornerRadius="9dp"
 		android:layout_margin="5dp"
@@ -161,7 +157,7 @@
 			android:layout_width="wrap_content"
 			android:textStyle="bold"/>
 
-	</android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>
 

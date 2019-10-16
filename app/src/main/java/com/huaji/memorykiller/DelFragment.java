@@ -1,20 +1,17 @@
 package com.huaji.memorykiller;
-import android.support.v4.app.*;
-import android.view.*;
-import android.os.*;
-import android.support.design.widget.*;
-import android.widget.*;
-import android.text.*;
-import android.util.*;
-import android.support.v7.widget.*;
-import java.util.*;
-import com.huaji.memorykiller.*;
-import org.litepal.*;
-import android.graphics.*;
-import android.graphics.drawable.*;
-import android.content.*;
-import android.content.res.*;
-import android.support.v4.content.*;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.litepal.LitePal;
+
+import java.util.List;
 
 public class DelFragment extends Fragment
 {

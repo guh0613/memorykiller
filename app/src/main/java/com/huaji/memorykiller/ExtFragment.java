@@ -1,10 +1,15 @@
 package com.huaji.memorykiller;
-import android.support.v4.app.*;
-import android.view.*;
-import android.os.*;
-import android.widget.*;
-import android.support.annotation.*;
-import android.widget.AdapterView.*;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import androidx.fragment.app.Fragment;
 
 public class ExtFragment extends Fragment
 {

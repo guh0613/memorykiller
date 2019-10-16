@@ -1,8 +1,11 @@
 package com.huaji.memorykiller;
 
-import android.os.*;
-import java.io.*;
-import org.apache.http.util.*;
+import android.os.Build;
+import android.text.TextUtils;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class OSUtils {
 

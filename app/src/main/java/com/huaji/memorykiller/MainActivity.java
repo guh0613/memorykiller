@@ -1,35 +1,51 @@
 package com.huaji.memorykiller;
 
-import android.os.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import com.pgyersdk.crash.*;
-import com.pgyersdk.update.*;
-import android.util.*;
-import com.pgyersdk.update.javabean.*;
-import android.content.*;
-import java.net.*;
-import android.net.*;
-import android.view.*;
-import android.support.v4.widget.*;
-import android.support.v4.view.*;
-import android.support.design.widget.*;
-import android.text.*;
-import android.widget.*;
-import java.io.*;
-import java.nio.channels.*;
-import java.nio.*;
-import android.support.v4.app.*;
-import android.widget.AdapterView.*;
-import android.support.v4.content.*;
-import android.*;
-import android.content.pm.*;
-import android.view.animation.*;
-import com.readystatesoftware.systembartint.*;
-import android.graphics.*;
-import com.pgyersdk.feedback.*;
-import java.util.*;
-import org.litepal.*;
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.feedback.PgyerFeedbackManager;
+import com.pgyersdk.update.DownloadFileListener;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
+import com.pgyersdk.update.javabean.AppBean;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 
 
 public class MainActivity extends AppCompatActivity
@@ -97,7 +113,7 @@ public class MainActivity extends AppCompatActivity
 			PgyCrashManager.reportCaughtException(e);
 		}
         repalceFragment(new QuickFregment());
-		android.support.v7.widget.Toolbar toolbar=(android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+		androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED)
 		{
@@ -130,8 +146,8 @@ public class MainActivity extends AppCompatActivity
 		mdraw1=(DrawerLayout) findViewById(R.id.draw1);
 		
 		ActionBar actionbar=getSupportActionBar();
-		
-		android.support.v7.app.ActionBarDrawerToggle mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mdraw1, toolbar,R.string.draw_open,R.string.draw_close);
+
+		androidx.appcompat.app.ActionBarDrawerToggle mDrawerToggle = new androidx.appcompat.app.ActionBarDrawerToggle(this, mdraw1, toolbar, R.string.draw_open, R.string.draw_close);
 																		
 		mDrawerToggle.syncState();//初始化状态
         mdraw1.setDrawerListener(mDrawerToggle);
@@ -156,7 +172,7 @@ public class MainActivity extends AppCompatActivity
 						case R.id.nav_del:
 							if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED)
 							{
-								Toast.makeText(MainActivity.this,"你是不是没给老子读写权限",2000).show();
+								Toast.makeText(MainActivity.this, "你是不是没给老子读写权限", Toast.LENGTH_SHORT).show();
 							}
 							else
 							{
@@ -837,7 +853,7 @@ public class MainActivity extends AppCompatActivity
 	}
 	public void showGifDialog1() 
 	{
-        android.support.v7.app.AlertDialog alert_progress = new android.support.v7.app.AlertDialog.Builder(MainActivity.this).create();
+		androidx.appcompat.app.AlertDialog alert_progress = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this).create();
 		alert_progress.show(); 
 		alert_progress.setCancelable(false); // 点击背景时对话框不会消失
 		// alert_progress.dismiss(); // 取消对话框
@@ -865,7 +881,7 @@ public class MainActivity extends AppCompatActivity
 		counts[counts.length - 1] = SystemClock.uptimeMillis();
 		if (counts[0] > SystemClock.uptimeMillis() - 1500)
 		{
-			Toast.makeText(MainActivity.this,"你好",2000).show();
+			Toast.makeText(MainActivity.this, "你好", Toast.LENGTH_SHORT).show();
 			counts= new long[5];
 		}
 	}

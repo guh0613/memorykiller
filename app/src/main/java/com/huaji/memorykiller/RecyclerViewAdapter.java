@@ -1,21 +1,20 @@
 package com.huaji.memorykiller;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.litepal.LitePal;
+
+import java.io.File;
 import java.util.List;
-import android.os.*;
-import org.litepal.*;
-import java.util.*;
-import java.io.*;
-import android.support.v7.app.*;
-import android.content.*;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -112,7 +111,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 					}catch(Exception e)
 					{
 						e.printStackTrace();
-						Toast.makeText(v.getContext(),"是不是......发生了什么错误",2000).show();
+						Toast.makeText(v.getContext(), "是不是......发生了什么错误", Toast.LENGTH_SHORT).show();
 					}
 					
 					//Toast.makeText(v.getContext(),Path.getName() + "当前位置" + position,Toast.LENGTH_SHORT).show();

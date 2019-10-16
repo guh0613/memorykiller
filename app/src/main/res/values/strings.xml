@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">老子占内存</string>
-    <string name="hello_world">Hello world!</string>
-	<string name="draw_open">Open navigation drawer</string>
+    <string name="draw_open">Open navigation drawer</string>
     <string name="draw_close">Close navigation drawer</string>
 </resources>

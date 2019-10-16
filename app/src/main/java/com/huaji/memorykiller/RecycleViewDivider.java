@@ -1,20 +1,17 @@
 package com.huaji.memorykiller;
-import android.support.v4.app.*;
-import android.view.*;
-import android.os.*;
-import android.support.design.widget.*;
-import android.widget.*;
-import android.text.*;
-import android.util.*;
-import android.support.v7.widget.*;
-import java.util.*;
-import com.huaji.memorykiller.*;
-import org.litepal.*;
-import android.graphics.*;
-import android.graphics.drawable.*;
-import android.content.*;
-import android.content.res.*;
-import android.support.v4.content.*;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class RecycleViewDivider extends RecyclerView.ItemDecoration {
 
     private Paint mPaint;
