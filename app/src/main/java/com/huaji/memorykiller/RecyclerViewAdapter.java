@@ -27,9 +27,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(View view){
             super(view);
-            titleTextView=(TextView)view.findViewById(R.id.file);
-			
-            linearLayout=(LinearLayout)view.findViewById(R.id.layout);
+            titleTextView = view.findViewById(R.id.file);
+
+            linearLayout = view.findViewById(R.id.layout);
 
         }
     }

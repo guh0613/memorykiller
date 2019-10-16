@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
 			PgyCrashManager.reportCaughtException(e);
 		}
         repalceFragment(new QuickFregment());
-		androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+		androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED)
 		{
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity
 				});
 			dialog.show();
 		}
-		mdraw1=(DrawerLayout) findViewById(R.id.draw1);
+		mdraw1 = findViewById(R.id.draw1);
 		
 		ActionBar actionbar=getSupportActionBar();
 
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity
 																		
 		mDrawerToggle.syncState();//初始化状态
         mdraw1.setDrawerListener(mDrawerToggle);
-		NavigationView mNavigationView=(NavigationView) findViewById(R.id.nav_view);
+		NavigationView mNavigationView = findViewById(R.id.nav_view);
 		mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 				@Override
 				public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -773,11 +773,11 @@ public class MainActivity extends AppCompatActivity
 	public void quickfile(View v)
 	{
 
-		TextInputLayout quickfileet=(TextInputLayout) findViewById(R.id.quickfileet);
+		TextInputLayout quickfileet = findViewById(R.id.quickfileet);
 		EditText quickfileleng=quickfileet.getEditText();
 		final String strqfileleng=quickfileleng.getText().toString();
 
-		RadioGroup rdquick=(RadioGroup) findViewById(R.id.rg_quickfile);
+		RadioGroup rdquick = findViewById(R.id.rg_quickfile);
 
 		switch (rdquick.getCheckedRadioButtonId())
 		{
@@ -864,8 +864,8 @@ public class MainActivity extends AppCompatActivity
 		wm.height = 666; // 设置对话框的高
 		wm.alpha = 1f;   // 对话框背景透明度
 		wm.dimAmount = 0.5f; // 遮罩层亮度
-		window.setAttributes(wm); 
-		ImageView img = (ImageView)window.findViewById(R.id.progress_bar);  // 获取布局文件中的ImageView控件
+		window.setAttributes(wm);
+		ImageView img = window.findViewById(R.id.progress_bar);  // 获取布局文件中的ImageView控件
 		img.setBackgroundResource(R.drawable.huaji); // 设置图片，也可在布局文件中设置
 		// 设置旋转动画
 		Animation tranfrom = new RotateAnimation(0,359,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
@@ -1052,14 +1052,7 @@ public class MainActivity extends AppCompatActivity
 			String fileunit1=p1[2];
 			publishProgress(filelength1);
 
-			if(createFile(fileall1,filelength1,fileunit1))
-			{
-				return true;
-			}
-
-			else{
-				return false;
-			}
+			return createFile(fileall1, filelength1, fileunit1);
 			// TODO: Implement this method
 
 		}

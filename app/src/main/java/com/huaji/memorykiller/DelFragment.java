@@ -23,11 +23,9 @@ public class DelFragment extends Fragment
 		//Something();
 		
 		List<HistoryPath> mList= LitePal.findAll(HistoryPath.class);
-		
-		
-		
-		
-		RecyclerView recyclerView=(RecyclerView) view.findViewById(R.id.recyclerView);
+
+
+		RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         RecyclerViewAdapter adapter=new RecyclerViewAdapter(mList);

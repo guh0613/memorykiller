@@ -80,7 +80,7 @@ public class StatusBarUtil {
      */
     public static void setRootViewFitsSystemWindows(Activity activity, boolean fitSystemWindows) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            ViewGroup winContent = (ViewGroup) activity.findViewById(android.R.id.content);
+            ViewGroup winContent = activity.findViewById(android.R.id.content);
             if (winContent.getChildCount() > 0) {
                 ViewGroup rootView = (ViewGroup) winContent.getChildAt(0);
                 if (rootView != null) {

@@ -18,7 +18,7 @@ public class ExtFragment extends Fragment
    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
    {
 	   View v=inflater.inflate(R.layout.ext_frag, container, false);
-	   Spinner Storage_unit = (Spinner) v.findViewById(R.id.Se);
+	   Spinner Storage_unit = v.findViewById(R.id.Se);
 	   String[] mItems = getResources().getStringArray(R.array.unit);
 	   ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, mItems);
 	   adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
