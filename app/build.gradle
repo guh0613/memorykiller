@@ -4,14 +4,14 @@ android {
     lintOptions {
         tasks.lint.enabled = false
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "com.huaji.memorykiller"
         minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 21
-        versionName "1.3re-build2"
+        targetSdkVersion 29
+        versionCode 22
+        versionName "1.3re-build2.1"
         
         
         externalNativeBuild {

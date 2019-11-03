@@ -5,15 +5,9 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -132,10 +126,7 @@ public class MainActivity extends AppCompatActivity
 							}
 							break;
 						
-						case R.id.nav_about:
-							repalceFragment(new AboFragment());
-							
-							break;
+
 							
 						
 							default:
@@ -565,41 +556,8 @@ public class MainActivity extends AppCompatActivity
 				break;
 		}
 	}
-	public void showGifDialog1() 
-	{
-		androidx.appcompat.app.AlertDialog alert_progress = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this).create();
-		alert_progress.show(); 
-		alert_progress.setCancelable(false); // 点击背景时对话框不会消失
-		// alert_progress.dismiss(); // 取消对话框
-		Window window = alert_progress.getWindow();
-		window.setContentView(R.layout.dialog_gif); //加载自定义的布局文件
-		WindowManager.LayoutParams wm = window.getAttributes();
-		wm.width = 666; // 设置对话框的宽
-		wm.height = 666; // 设置对话框的高
-		wm.alpha = 1f;   // 对话框背景透明度
-		wm.dimAmount = 0.5f; // 遮罩层亮度
-		window.setAttributes(wm);
-		ImageView img = window.findViewById(R.id.progress_bar);  // 获取布局文件中的ImageView控件
-		img.setBackgroundResource(R.drawable.huaji); // 设置图片，也可在布局文件中设置
-		// 设置旋转动画
-		Animation tranfrom = new RotateAnimation(0,359,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-		tranfrom.setDuration(3000); // 旋转速度
-		tranfrom.setFillAfter(true); 
-		tranfrom.setRepeatCount(-1); // －1为一只旋转，若10，则旋转10次设定的角度后停止
-		// tranfrom.cancel();  // 取消动画
-		img.setAnimation(tranfrom);
-    }
-	public void about(View v)
-	{		
-		System.arraycopy(counts, 1, counts, 0, counts.length - 1);//源数组  源数组要复制的起始位置 目的数组  目的数组放置的起始位置  复制的长度
-		counts[counts.length - 1] = SystemClock.uptimeMillis();
-		if (counts[0] > SystemClock.uptimeMillis() - 1500)
-		{
-			Toast.makeText(MainActivity.this, "你好", Toast.LENGTH_SHORT).show();
-			counts= new long[5];
-		}
-	}
-	
+
+
 	public void genfilede(View v)
 	{
 		

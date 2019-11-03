@@ -5,7 +5,7 @@
     			<item
         			android:id="@+id/nav_quickstart"
         			android:title="快速占内存"
-					android:icon="@drawable/quick"/>
+					android:icon="@mipmap/quick" />
 			</menu>
 		</item>
 	<item android:title="开始占内存">
@@ -13,11 +13,11 @@
 		<item
 			android:id="@+id/nav_gen"
 			android:title="根目录"
-			android:icon="@drawable/gen"/>
+			android:icon="@mipmap/gen" />
 		<item
 			android:id="@+id/nav_external"
 			android:title="外部储存（手机内存）"
-			android:icon="@drawable/ext"/>
+			android:icon="@mipmap/ext" />
 		
 	</menu>
 	</item>
@@ -26,15 +26,7 @@
 			<item
 				android:id="@+id/nav_del"
 				android:title="删除"
-				android:icon="@drawable/del"/>
-		</menu>
-	</item>
-	<item android:title="关于">
-		<menu>
-			<item
-				android:id="@+id/nav_about"
-				android:title="关于"
-				android:icon="@drawable/del"/>
+				android:icon="@mipmap/del" />
 		</menu>
 	</item>
 	</group>
