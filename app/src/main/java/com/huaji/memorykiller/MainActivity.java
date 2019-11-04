@@ -2,15 +2,10 @@ package com.huaji.memorykiller;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -34,12 +29,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
-import com.pgyersdk.crash.PgyCrashManager;
-import com.pgyersdk.feedback.PgyerFeedbackManager;
-import com.pgyersdk.update.DownloadFileListener;
-import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
-import com.pgyersdk.update.javabean.AppBean;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     {
 		
         super.onCreate(savedInstanceState);
-		PgyCrashManager.register(); 
+
 		setContentView(R.layout.main);
 		//当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
 		StatusBarUtil.setRootViewFitsSystemWindows(this,true);
@@ -74,44 +63,7 @@ public class MainActivity extends AppCompatActivity
 			//如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
 			//这样半透明+白=灰, 状态栏的文字能看得清
 			StatusBarUtil.setStatusBarColor(this,0xFF3F51B5);
-		SharedPreferences sp=this.getPreferences(MODE_PRIVATE);
-		int havereadlogs =sp.getInt("havereadlogs",2);
-		try{
-			if(havereadlogs==2)
-			{
-				SharedPreferences.Editor editor=sp.edit();
-				editor.putInt("havereadlogs",1);
-				editor.commit();
 
-				AlertDialog.Builder dialog2=new AlertDialog.Builder(MainActivity.this);
-				dialog2.setTitle("发送日志");
-				dialog2.setMessage("为了帮助开发者更加方便地抓爬虫，在发生闪退时应用会自动发送您的运行日志。如果您不想发送，也可以选择不允许。");
-				dialog2.setCancelable(false);
-				dialog2.setPositiveButton("明白了", new DialogInterface.OnClickListener()
-					{
-						@Override
-						public void onClick(DialogInterface dialog,int which)
-						{
-
-						}
-					});
-				dialog2.setNegativeButton("老子不允许", new DialogInterface.OnClickListener()
-					{
-						@Override
-						public void onClick(DialogInterface dialog,int which)
-						{
-							Toast.makeText(MainActivity.this,"将不会发送日志",Toast.LENGTH_SHORT).show();
-							PgyCrashManager.unregister();
-						}
-
-
-					});
-				dialog2.show();
-			}
-		}catch (Exception e)
-		{
-			PgyCrashManager.reportCaughtException(e);
-		}
         repalceFragment(new QuickFregment());
 		androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -195,111 +147,8 @@ public class MainActivity extends AppCompatActivity
 					}
 					});
 
-		new PgyUpdateManager.Builder()
-			.setForced(false)                //设置是否强制提示更新,非自定义回调更新接口此方法有用
-			.setUserCanRetry(true)         //失败后是否提示重新下载，非自定义下载 apk 回调此方法有用
-			.setDeleteHistroyApk(true)     // 检查更新前是否删除本地历史 Apk， 默认为true
-			.setUpdateManagerListener(new UpdateManagerListener() {
-				@Override
-				public void onNoUpdateAvailable() {
-					//没有更新是回调此方法
 
-					Log.d("pgyer", "there is no new version");
-				}
-				@Override
-				public void onUpdateAvailable(final AppBean appBean) {
-					//有更新回调此方法
-					Log.d("pgyer", "there is new version can update"
-						  + "new versionCode is " + appBean.getVersionCode());
-					//调用以下方法，DownloadFileListener 才有效；
-					//如果完全使用自己的下载方法，不需要设置DownloadFileListener
-					AlertDialog.Builder a1=new AlertDialog.Builder(MainActivity.this);
-					a1.setTitle("更新");
-					a1.setMessage("老子更新了!");
-					a1.setPositiveButton("去看看", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog,int which)
-							{
-								String uyt="https://www.coolapk.com/apk/com.huaji.memorykiller";
-								startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uyt)));
-							}
-						});
-					a1.setNegativeButton("老子才不要更新", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog,int which)
-							{
-								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
-							}
-						});
-					a1.setNeutralButton("直接更新", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog,int which)
-							{
-								PgyUpdateManager.downLoadApk(appBean.getDownloadURL());
-							}
-						});
-					a1.show();
-				}
-
-				@Override
-				public void checkUpdateFailed(Exception e) {
-					//更新检测失败回调
-					//更新拒绝（应用被下架，过期，不在安装有效期，下载次数用尽）以及无网络情况会调用此接口
-
-					Log.e("pgyer", "check update failed ", e);
-                }
-				
-            })
-			.setDownloadFileListener(new DownloadFileListener() {   
-                @Override
-                public void downloadFailed() {
-                    //下载失败
-                    Log.e("pgyer", "download apk failed");
-					AlertDialog.Builder a1=new AlertDialog.Builder(MainActivity.this);
-					a1.setTitle("下载失败");
-					a1.setMessage("直接更新失败，是否去酷安手动更新？");
-					a1.setPositiveButton("去看看", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog,int which)
-							{
-								String uyt="https://www.coolapk.com/apk/com.huaji.memorykiller";
-								startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uyt)));
-							}
-						});
-					a1.setNegativeButton("老子才不要更新", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog,int which)
-							{
-								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
-							}
-						});
-
-                }
-
-                @Override
-                public void downloadSuccessful(Uri uri) {
-                    Log.e("pgyer", "download apk failed");
-                    // 使用蒲公英提供的安装方法提示用户 安装apk
-                    PgyUpdateManager.installApk(uri);  
-				}
-
-                @Override
-                public void onProgressUpdate(Integer... integers) {
-                    Log.e("pgyer", "update download apk progress" + integers);
-                }})
-			.register();
-		
-	
-			
-			
-			
-			
-			//LitePal.deleteAll(HistoryPath.class);
+		//LitePal.deleteAll(HistoryPath.class);
 			
 			
 			
@@ -308,46 +157,8 @@ public class MainActivity extends AppCompatActivity
 			
 			
 	}
-	
 
-		
-    
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		// TODO: Implement this method
-		getMenuInflater().inflate(R.menu.main,menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-			case R.id.about:
-				new PgyerFeedbackManager.PgyerFeedbackBuilder()
-					.setShakeInvoke(false)       //fasle 则不触发摇一摇，最后需要调用 invoke 方法
-					// true 设置需要调用 register 方法使摇一摇生效
-					.setDisplayType(PgyerFeedbackManager.TYPE.DIALOG_TYPE)   //设置以Dialog 的方式打开
-					.setColorDialogTitle("#ff000000")    //设置Dialog 标题的字体颜色，默认为颜色为#ffffff
-					.setColorTitleBg("#ff000000")        //设置Dialog 标题栏的背景色，默认为颜色为#2E2D2D
-					.setBarBackgroundColor("#FF0000")      // 设置顶部按钮和底部背景色，默认颜色为 #2E2D2D
-					.setBarButtonPressedColor("#FF0000")        //设置顶部按钮和底部按钮按下时的反馈色 默认颜色为 #383737
-					.setColorPickerBackgroundColor("#FF0000")   //设置颜色选择器的背景色,默认颜色为 #272828
-				
-					.builder()
-					.invoke();                  //激活直接显示的方式
-			break;
-			case R.id.updata:
-			checkupdate();
-			break;
-					
-		}
-		// TODO: Implement this method
-		return true;
-	}
 	private void repalceFragment(Fragment fregment)
 	{
 		FragmentManager fragmentmanager=getSupportFragmentManager();
@@ -424,7 +235,7 @@ public class MainActivity extends AppCompatActivity
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
-			PgyCrashManager.reportCaughtException(e);
+
 		} finally {
 			try {
 				if (fos != null) {
@@ -432,111 +243,14 @@ public class MainActivity extends AppCompatActivity
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
-				PgyCrashManager.reportCaughtException(e);
+
 			}
 		}
 		return false;
 	}
 	
 
-	public void checkupdate()
-	{
-		new PgyUpdateManager.Builder()
 
-			.setUpdateManagerListener(new UpdateManagerListener() {
-				@Override
-				public void onNoUpdateAvailable() {
-					//没有更新是回调此方法
-					Toast.makeText(MainActivity.this,"已经是最新版本",Toast.LENGTH_SHORT).show();
-					Log.d("pgyer", "there is no new version");
-				}
-				@Override
-				public void onUpdateAvailable(final AppBean appBean) {
-					//有更新回调此方法
-					Log.d("pgyer", "there is new version can update"
-						  + "new versionCode is " + appBean.getVersionCode());
-					//调用以下方法，DownloadFileListener 才有效；
-					//如果完全使用自己的下载方法，不需要设置DownloadFileListener
-					AlertDialog.Builder a1=new AlertDialog.Builder(MainActivity.this);
-					a1.setTitle("更新");
-					a1.setMessage("老子更新了!");
-					a1.setPositiveButton("去看看", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog,int which)
-							{
-								String uyt="https://www.coolapk.com/apk/com.huaji.memorykiller";
-								startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uyt)));
-							}
-						});
-					a1.setNegativeButton("老子才不要更新", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog,int which)
-							{
-								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
-							}
-						});
-					a1.setNeutralButton("直接更新", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog,int which)
-							{
-								PgyUpdateManager.downLoadApk(appBean.getDownloadURL());
-							}
-						});
-					a1.show();
-				}
-
-				@Override
-				public void checkUpdateFailed(Exception e) {
-					//更新检测失败回调
-					//更新拒绝（应用被下架，过期，不在安装有效期，下载次数用尽）以及无网络情况会调用此接口
-
-					Log.e("pgyer", "check update failed ", e);
-                }
-            })
-			.setDownloadFileListener(new DownloadFileListener() {   
-                @Override
-                public void downloadFailed() {
-                    //下载失败
-                    Log.e("pgyer", "download apk failed");
-					AlertDialog.Builder a1=new AlertDialog.Builder(MainActivity.this);
-					a1.setTitle("下载失败");
-					a1.setMessage("直接更新失败，是否去酷安手动更新？");
-					a1.setPositiveButton("去看看", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog,int which)
-							{
-								String uyt="https://www.coolapk.com/apk/com.huaji.memorykiller";
-								startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uyt)));
-							}
-						});
-					a1.setNegativeButton("老子才不要更新", new DialogInterface.OnClickListener()
-						{
-							@Override
-							public void onClick(DialogInterface dialog,int which)
-							{
-								Toast.makeText(MainActivity.this,"(눈_눈)",Toast.LENGTH_SHORT).show();
-							}
-						});
-
-                }
-
-                @Override
-                public void downloadSuccessful(Uri uri) {
-                    Log.e("pgyer", "download apk failed");
-                    // 使用蒲公英提供的安装方法提示用户 安装apk
-                    PgyUpdateManager.installApk(uri);  
-				}
-
-                @Override
-                public void onProgressUpdate(Integer... integers) {
-                    Log.e("pgyer", "update download apk progress" + integers);
-                }})
-			.register();
-	}
             
                
                 
@@ -643,8 +357,8 @@ public class MainActivity extends AppCompatActivity
 			
 			}catch(Exception e)
 			{
-				PgyCrashManager.reportCaughtException(e);
-				
+
+
 			}
 		}
 	}
@@ -763,7 +477,7 @@ public class MainActivity extends AppCompatActivity
 			}catch(Exception e)
 			{
 				e.printStackTrace();
-				PgyCrashManager.reportCaughtException(e);
+
 			}
 		}
 		}
@@ -790,7 +504,7 @@ public class MainActivity extends AppCompatActivity
 				}catch(Exception e)
 				{
 					e.printStackTrace();
-					PgyCrashManager.reportCaughtException(e);
+
 				}
 				break;
 			case R.id.large:
@@ -802,7 +516,7 @@ public class MainActivity extends AppCompatActivity
 				}catch(Exception e)
 				{
 					e.printStackTrace();
-			PgyCrashManager.reportCaughtException(e);
+
 				}
 				break;
 			case R.id.med:
@@ -812,7 +526,7 @@ public class MainActivity extends AppCompatActivity
 				}catch(Exception e)
 				{
 					e.printStackTrace();
-					PgyCrashManager.reportCaughtException(e);
+
 				}
 				break;
 			case R.id.small:
@@ -822,7 +536,7 @@ public class MainActivity extends AppCompatActivity
 				}catch(Exception e)
 				{
 					e.printStackTrace();
-					PgyCrashManager.reportCaughtException(e);
+
 				}
 				break;
 			case R.id.custom:
@@ -841,7 +555,7 @@ public class MainActivity extends AppCompatActivity
 					}catch(Exception e)
 					{
 						e.printStackTrace();
-						PgyCrashManager.reportCaughtException(e);
+
 					}
 				}
 				
@@ -1085,85 +799,7 @@ public class MainActivity extends AppCompatActivity
 		}
 
 
-		//文件写入
-		public boolean createFile(String targetFile, long fileLength, String unit) {
-			//指定每次分配的块大小
-			long KBSIZE = 1024;
-			long MBSIZE1 = 1024 * 1024;
-			long MBSIZE10 = 1024 * 1024 * 10;
-			long MBSIZE100=1024*1024*100;
-			if(unit=="KB")
-			{
-				fileLength = fileLength * 1024;
-			}
-			if(unit=="MB")
-			{
-				fileLength = fileLength * 1024*1024;
-			}
-			if(unit=="GB")
-			{
-				fileLength = fileLength * 1024*1024*1024;
-			}
-			if (unit=="TB")
-			{
-				fileLength=fileLength*1024*1024*1024*1024;
-			}
 
-
-			FileOutputStream fos = null;
-			File file = new File(targetFile);
-			try {
-//如果文件存在
-				if 
-				(!file.exists()) {
-					file.createNewFile();
-				}
-
-				long batchSize = 0;
-				batchSize = fileLength;
-				if (fileLength > KBSIZE) {
-					batchSize = KBSIZE;
-				}
-				if (fileLength > MBSIZE1) {
-					batchSize = MBSIZE1;
-				}
-				if (fileLength > MBSIZE10) {
-					batchSize = MBSIZE10;
-				}
-				if (fileLength >MBSIZE100){
-					batchSize = MBSIZE100;
-				}
-				long count = fileLength / batchSize;
-				long last = fileLength % batchSize;
-
-				fos = new FileOutputStream(file);
-				FileChannel fileChannel = fos.getChannel();
-				for (int i = 0; i < count; i++) {
-					ByteBuffer buffer = ByteBuffer.allocate((int) batchSize);
-					fileChannel.write(buffer);
-
-				}
-				if (last != 0) {
-					ByteBuffer buffer = ByteBuffer.allocate((int) last);
-					fileChannel.write(buffer);
-				}
-				fos.close();
-				return true;
-			} catch (IOException e) {
-				e.printStackTrace();
-				PgyCrashManager.reportCaughtException(e);
-			} finally {
-				try {
-					if (fos != null) {
-						fos.close();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-					PgyCrashManager.reportCaughtException(e);
-				}
-			}
-			return false;
-		}
 
 	}
 	

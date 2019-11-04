@@ -1,6 +1,7 @@
 package com.huaji.memorykiller;
-import org.litepal.crud.*;
-import org.litepal.annotation.*;
+
+import org.litepal.annotation.Column;
+import org.litepal.crud.LitePalSupport;
 
  
 public class HistoryPath extends LitePalSupport{ 
